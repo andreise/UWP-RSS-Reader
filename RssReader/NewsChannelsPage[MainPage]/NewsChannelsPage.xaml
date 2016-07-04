@@ -13,6 +13,7 @@
                               ItemsPath=""
                               Source="{x:Bind ViewModel.NewsChannels}" />
 
+        <!--
         <DataTemplate x:Name="NewsChannelHeaderTemplate" x:DataType="data:RssChannel">
             <StackPanel Orientation="Vertical">
                 <Ellipse x:Name="Ellipse"
@@ -38,6 +39,7 @@
                            Text="{x:Bind LastBuildDate}" />
             </StackPanel>
         </DataTemplate>
+        -->
 
     </Page.Resources>
 
@@ -46,12 +48,21 @@
               ItemClick="NewsChannelsListView_ItemClick"
               ItemsSource="{Binding Source={StaticResource NewsChannels}}">
 
+        <!--
         <ListView.GroupStyle>
             <GroupStyle HeaderTemplate="{StaticResource NewsChannelHeaderTemplate}" />
         </ListView.GroupStyle>
+        -->
         <ListView.ItemTemplate>
             <DataTemplate x:Name="NewsChannelItemHeaderTemplate" x:DataType="data:RssChannel">
                 <StackPanel>
+                    <Ellipse x:Name="Ellipse"
+                             Width="40"
+                             Height="40"
+                             Margin="4,4,0,4"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             Fill="LightGray" />
                     <TextBlock x:Name="NewsChannelTitle"
                                Margin="4,4,0,4"
                                HorizontalAlignment="Left"

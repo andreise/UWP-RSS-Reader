@@ -24,7 +24,13 @@ namespace RssReader
 
             Contract.EndContractBlock();
 
-            this.NewsChannelItemPageGoBackCommand = new CommandHandler(() => owner.Frame.GoBack());
+            this.NewsChannelItemPageGoBackCommand = new CommandHandler(
+                () => 
+                {
+                    NewsChannelPage.CurrentNewsChannelItemSetNeeded = true;
+                    owner.Frame.GoBack();
+                }
+            );
             this.NewsChannelItem = newsChannelItem;
         }
 

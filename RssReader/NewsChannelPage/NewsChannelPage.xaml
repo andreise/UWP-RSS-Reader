@@ -43,7 +43,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <ListView x:Name="RssListView"
+        <ListView x:Name="NewsChannelListView"
                   IsItemClickEnabled="True"
                   ItemClick="NewsChannelListView_ItemClick"
                   ItemsSource="{Binding Source={StaticResource NewsChannel}}">
@@ -67,9 +67,6 @@
                                    Foreground="Gray"
                                    Style="{ThemeResource BodyTextBlockStyle}"
                                    Text="{x:Bind PublishDate}" />
-                        <!--
-                    <Button Command="{Binding ElementName=RssListView, Path=DataContext.}" />
-                        -->
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

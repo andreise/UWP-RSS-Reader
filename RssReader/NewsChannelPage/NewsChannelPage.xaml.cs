@@ -28,19 +28,25 @@ namespace RssReader
         {
             this.InitializeComponent();
 
-            this.NavigationCacheMode = NavigationCacheMode.Required;
-
             this.DataContext = new NewsChannelPageViewModel(this, NewsChannelsPage.CurrentNewsChannel);
+
+            this.Loaded += NewsChannelPage_Loaded;
+        }
+
+        private void NewsChannelPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (CurrentNewsChannelItemSetNeeded)
+                this.NewsChannelListView.SelectedItem = CurrentNewsChannelItem;
         }
 
         public NewsChannelPageViewModel ViewModel => (NewsChannelPageViewModel)this.DataContext;
 
-        public static RssChannelItem CurrentNewsChannelItem { get; private set; }
+        public static bool CurrentNewsChannelItemSetNeeded { get; set; }
+
+        public static RssChannelItem CurrentNewsChannelItem { get; set; }
 
         private void NewsChannelListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            this.NavigationCacheMode = NavigationCacheMode.Required;
-
             CurrentNewsChannelItem = (RssChannelItem)e.ClickedItem;
             this.Frame.Navigate(typeof(NewsChannelItemPage));
         }
