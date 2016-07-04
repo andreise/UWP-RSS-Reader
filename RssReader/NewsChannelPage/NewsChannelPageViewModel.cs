@@ -16,7 +16,7 @@ namespace RssReader
 
         public IReadOnlyCollection<RssChannel> NewsChannel { get; }
 
-        public ICommand NewsChannelPageGoBackCommand;
+        public ICommand NewsChannelPageGoBackCommand { get; }
 
         public NewsChannelPageViewModel(NewsChannelPage owner, RssChannel newsChannel)
         {

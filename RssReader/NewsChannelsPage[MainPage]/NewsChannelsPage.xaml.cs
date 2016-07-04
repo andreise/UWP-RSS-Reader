@@ -28,7 +28,7 @@ namespace RssReader
         {
             this.InitializeComponent();
 
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
+            this.NavigationCacheMode = NavigationCacheMode.Required;
 
             this.DataContext = new NewsChannelsPageViewModel();
         }
@@ -40,7 +40,9 @@ namespace RssReader
         private void NewsChannelsListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             CurrentNewsChannel = (RssChannel)e.ClickedItem;
+            new NewsChannelPage().NavigationCacheMode = NavigationCacheMode.Disabled;
             this.Frame.Navigate(typeof(NewsChannelPage));
         }
+
     }
 }

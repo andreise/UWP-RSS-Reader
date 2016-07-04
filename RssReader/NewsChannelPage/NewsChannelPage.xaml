@@ -80,7 +80,7 @@
                 Margin="10,10,10,10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
-                Command="{Binding NewsChannelItemPageGoBackCommand,
+                Command="{Binding NewsChannelPageGoBackCommand,
                                   Mode=TwoWay}"
                 Content="Back" />
 

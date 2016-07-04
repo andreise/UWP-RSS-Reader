@@ -70,15 +70,6 @@
             </DataTemplate>
         </ListView.ItemTemplate>
 
-        <Button x:Name="BackButton"
-                Width="75"
-                Margin="10,10,10,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Command="{Binding NewsChannelPageGoBackCommand,
-                                  Mode=TwoWay}"
-                Content="Back" />
-
     </ListView>
 
 </Page>
