@@ -19,7 +19,7 @@ namespace RssReader.Model
         /// <summary>
         /// Supported RSS versions
         /// </summary>
-        public static IReadOnlyList<Version> SupportedRssVersions { get; } = new ReadOnlyCollection<Version>(
+        public static IReadOnlyCollection<Version> SupportedRssVersions { get; } = new ReadOnlyCollection<Version>(
             new Version[]
             {
                 new Version(2, 0)
@@ -39,7 +39,7 @@ namespace RssReader.Model
         /// </summary>
         /// <param name="uri">RSS Uri</param>
         /// <param name="verifyRssVersion">Verify RSS version is supported</param>
-        /// <returns>RSS channel instance list</returns>
+        /// <returns>RSS channel instance</returns>
         /// <exception cref="ArgumentNullException">Throws if the uri is null</exception>
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
         public static RssChannel LoadChannelFromUri(string uri, bool verifyRssVersion = false)
@@ -101,7 +101,7 @@ namespace RssReader.Model
                     channelElement.Element(RssNames.Channel.Description)?.Value,
                     convertToChannelImage(channelElement.Element(RssNames.Channel.Image.Root)),
                     channelElement.Element(RssNames.Channel.ChannelLastBuildDate)?.Value,
-                    channelElement.Elements(RssNames.Channel.Item.Root).Select(convertToNewsItem).ToArray()
+                    channelElement.Elements(RssNames.Channel.Item.Root).Select(convertToNewsItem)
                 );
 
             try
@@ -115,21 +115,21 @@ namespace RssReader.Model
         }
 
         /// <summary>
-        /// Loads the RSS channels content from Uri list
+        /// Loads the RSS channels content from Uri collection
         /// </summary>
-        /// <param name="uriList">RSS Uri list</param>
+        /// <param name="uriCollection">RSS Uri collection</param>
         /// <param name="verifyRssVersion">Verify RSS version is supported</param>
-        /// <returns>RSS channel instance list</returns>
-        /// <exception cref="ArgumentNullException">Throws if the uri list is null</exception>
+        /// <returns>RSS channel instance collection</returns>
+        /// <exception cref="ArgumentNullException">Throws if the uri collection is null</exception>
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
-        public static IReadOnlyList<RssChannel> LoadChannelsFromUriList(IReadOnlyList<string> uriList, bool verifyRssVersion = false)
+        public static IEnumerable<RssChannel> LoadChannelsFromUriCollection(IEnumerable<string> uriCollection, bool verifyRssVersion = false)
         {
-            if ((object)uriList == null)
-                throw new ArgumentNullException(nameof(uriList));
+            if ((object)uriCollection == null)
+                throw new ArgumentNullException(nameof(uriCollection));
 
             Contract.EndContractBlock();
 
-            return uriList.Where(uri => (object)uri != null).Select(uri => LoadChannelFromUri(uri, verifyRssVersion)).ToArray();
+            return uriCollection.Where(uri => !string.IsNullOrWhiteSpace(uri)).Select(uri => LoadChannelFromUri(uri, verifyRssVersion));
         }
 
     }

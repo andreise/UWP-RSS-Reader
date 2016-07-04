@@ -30,7 +30,7 @@ namespace RssReader.AppSettings
                 uri => uri.Trim()
             ).ToArray() ?? new string[0];
 
-        private static string JoinUriCollection(IReadOnlyCollection<string> uriCollection) =>
+        private static string JoinUriCollection(IEnumerable<string> uriCollection) =>
              string.Join(
                  uriSeparator,
                  uriCollection?.Where(
@@ -44,7 +44,7 @@ namespace RssReader.AppSettings
 
         private readonly ApplicationDataContainer settingsContainer;
 
-        private IReadOnlyCollection<string> LoadRssUriCollection()
+        private IEnumerable<string> LoadRssUriCollection()
         {
             var rssUriCollection = ParseUriCollection((string)this.settingsContainer.Values[SettingParamNames.RssUriCollection]);
 

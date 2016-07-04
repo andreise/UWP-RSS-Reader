@@ -11,19 +11,15 @@ namespace RssReader
 
     public sealed class NewsFeedPageViewModel
     {
-        private static class SettingParamNames
-        {
-            public static string RssUriList = "rssUriList";
-        }
 
         public ObservableCollection<RssChannel> RssChannels { get; }
 
-        private static IReadOnlyList<RssChannel> LoadRssChannelsFromUriList(IReadOnlyList<string> uriList)
-            => RssManager.LoadChannelsFromUriList(uriList, ConfigurationManager.Default.VerifyRssVersion);
+        private static IEnumerable<RssChannel> LoadRssChannelsFromUriCollection(IEnumerable<string> uriCollection)
+            => RssManager.LoadChannelsFromUriCollection(uriCollection, ConfigurationManager.Default.VerifyRssVersion);
 
         public NewsFeedPageViewModel()
         {
-            this.RssChannels = new ObservableCollection<RssChannel>(LoadRssChannelsFromUriList(AppSettingsManager.Default.RssUriCollection));
+            this.RssChannels = new ObservableCollection<RssChannel>(LoadRssChannelsFromUriCollection(AppSettingsManager.Default.RssUriCollection));
         }
 
     }

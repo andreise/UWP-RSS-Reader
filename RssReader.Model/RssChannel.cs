@@ -40,7 +40,7 @@ namespace RssReader.Model
         /// <summary>
         /// News Items
         /// </summary>
-        public IReadOnlyList<RssNewsItem> News { get; }
+        public IReadOnlyCollection<RssNewsItem> News { get; }
 
         /// <summary>
         /// Constructor
@@ -57,7 +57,7 @@ namespace RssReader.Model
             string description,
             RssChannelImage image,
             string lastBuildDate,
-            IList<RssNewsItem> news
+            IEnumerable<RssNewsItem> news
         )
         {
             this.Title = title ?? string.Empty;
