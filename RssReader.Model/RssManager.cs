@@ -41,13 +41,19 @@ namespace RssReader.Model
         /// <param name="verifyRssVersion">Verify RSS version is supported</param>
         /// <returns>RSS channel instance</returns>
         /// <exception cref="ArgumentNullException">Throws if the uri is null</exception>
+        /// <exception cref="ArgumentException">Throws if the uri is empty or whitespace</exception>
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
         public static RssChannel LoadChannelFromUri(string uri, bool verifyRssVersion = false)
         {
             if ((object)uri == null)
-                throw new ArgumentNullException(nameof(uri));
+                throw new ArgumentNullException(paramName: nameof(uri));
+
+            if (string.IsNullOrWhiteSpace(uri))
+                throw new ArgumentException(paramName: nameof(uri), message: "Uri is empty.");
 
             Contract.EndContractBlock();
+
+            uri = uri.Trim();
 
             IStorageFile rssTempFile = Downloader.DownloadFileFromUri(new Uri(uri));
             XDocument doc;
@@ -85,8 +91,8 @@ namespace RssReader.Model
                     channelImageElement.Element(RssNames.Channel.Image.Title)?.Value
                 );
 
-            Func<XElement, RssNewsItem> convertToNewsItem = newsItemElement =>
-                new RssNewsItem(
+            Func<XElement, RssChannelItem> convertToNewsItem = newsItemElement =>
+                new RssChannelItem(
                     newsItemElement.Element(RssNames.Channel.Item.Title)?.Value,
                     newsItemElement.Element(RssNames.Channel.Item.Link)?.Value,
                     newsItemElement.Element(RssNames.Channel.Item.Description)?.Value,
@@ -96,6 +102,7 @@ namespace RssReader.Model
 
             Func<XElement, RssChannel> convertToChannel = channelElement =>
                 new RssChannel(
+                    uri,
                     channelElement.Element(RssNames.Channel.Title)?.Value,
                     channelElement.Element(RssNames.Channel.Link)?.Value,
                     channelElement.Element(RssNames.Channel.Description)?.Value,

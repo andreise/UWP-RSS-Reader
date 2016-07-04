@@ -1,0 +1,89 @@
+﻿<Page x:Class="RssReader.NewsChannelPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:data="using:RssReader.Model"
+      xmlns:local="using:RssReader"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="NewsChannel"
+                              IsSourceGrouped="True"
+                              ItemsPath="News"
+                              Source="{x:Bind ViewModel.NewsChannel}" />
+
+        <DataTemplate x:Name="NewsChannelHeaderTemplate" x:DataType="data:RssChannel">
+            <StackPanel Orientation="Vertical">
+                <Ellipse x:Name="Ellipse"
+                         Width="40"
+                         Height="40"
+                         Margin="4,4,0,4"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Fill="LightGray" />
+                <TextBlock x:Name="RssChannelTitle"
+                           Margin="4,4,0,4"
+                           HorizontalAlignment="Left"
+                           x:Phase="1"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           Text="{x:Bind Title}" />
+                <TextBlock x:Name="RssChannelLastBuildDate"
+                           Margin="4,4,0,4"
+                           HorizontalAlignment="Left"
+                           x:Phase="2"
+                           FontSize="12"
+                           Foreground="Gray"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           Text="{x:Bind LastBuildDate}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <ListView x:Name="RssListView"
+                  IsItemClickEnabled="True"
+                  ItemClick="NewsChannelListView_ItemClick"
+                  ItemsSource="{Binding Source={StaticResource NewsChannel}}">
+            <ListView.GroupStyle>
+                <GroupStyle HeaderTemplate="{StaticResource NewsChannelHeaderTemplate}" />
+            </ListView.GroupStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="NewsChannelItemHeaderTemplate" x:DataType="data:RssChannelItem">
+                    <StackPanel>
+                        <TextBlock x:Name="NewChannelItemTitle"
+                                   Margin="4,4,0,4"
+                                   HorizontalAlignment="Left"
+                                   x:Phase="2"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind Title}" />
+                        <TextBlock x:Name="NewChannelItemPublishDate"
+                                   Margin="4,4,0,4"
+                                   HorizontalAlignment="Left"
+                                   x:Phase="3"
+                                   FontSize="12"
+                                   Foreground="Gray"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind PublishDate}" />
+                        <!--
+                    <Button Command="{Binding ElementName=RssListView, Path=DataContext.}" />
+                        -->
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button x:Name="BackButton"
+                Width="75"
+                Margin="10,10,10,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Command="{Binding NewsChannelItemPageGoBackCommand,
+                                  Mode=TwoWay}"
+                Content="Back" />
+
+    </Grid>
+
+</Page>

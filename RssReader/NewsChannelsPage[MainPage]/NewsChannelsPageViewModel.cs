@@ -6,20 +6,21 @@ using System.Windows.Input;
 namespace RssReader
 {
     using AppSettings;
+    using Common;
     using Configuration;
     using Model;
 
     public sealed class NewsChannelsPageViewModel
     {
 
-        public ObservableCollection<RssChannel> RssChannels { get; }
+        public ObservableCollection<RssChannel> NewsChannels { get; }
 
         private static IEnumerable<RssChannel> LoadRssChannelsFromUriCollection(IEnumerable<string> uriCollection)
             => RssManager.LoadChannelsFromUriCollection(uriCollection, ConfigurationManager.Default.VerifyRssVersion);
 
         public NewsChannelsPageViewModel()
         {
-            this.RssChannels = new ObservableCollection<RssChannel>(LoadRssChannelsFromUriCollection(AppSettingsManager.Default.RssUriCollection));
+            this.NewsChannels = new ObservableCollection<RssChannel>(LoadRssChannelsFromUriCollection(AppSettingsManager.Default.RssUriCollection));
         }
 
     }

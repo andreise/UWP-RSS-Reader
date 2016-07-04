@@ -1,4 +1,4 @@
-﻿<Page x:Class="RssReader.NewsItemPage"
+﻿<Page x:Class="RssReader.NewsChannelItemPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,37 +12,27 @@
                        Margin="4,4,0,4"
                        HorizontalAlignment="Left"
                        Style="{ThemeResource BodyTextBlockStyle}"
-                       Text="{x:Bind ViewModel.NewsItem.Title}" />
+                       Text="{x:Bind ViewModel.NewsChannelItem.Title}" />
             <TextBlock x:Name="RssNewItemPublishDate"
                        Margin="4,4,0,4"
                        HorizontalAlignment="Left"
                        FontSize="12"
                        Foreground="Gray"
                        Style="{ThemeResource BodyTextBlockStyle}"
-                       Text="{x:Bind ViewModel.NewsItem.PublishDate}" />
+                       Text="{x:Bind ViewModel.NewsChannelItem.PublishDate}" />
         </StackPanel>
 
-        <WebView x:Name="RssNewsItemWebView"
+        <WebView x:Name="RssNewsChannelItemWebView"
                  Margin="10,69,10,47"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch" />
 
-        <!--
         <Button x:Name="BackButton"
                 Width="75"
                 Margin="10,10,10,10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
-                Click="BackButton_Click"
-                Content="Back" />
-        -->
-
-        <Button x:Name="BackButton"
-                Width="75"
-                Margin="10,10,10,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Command="{Binding NewsItemPageGoBackCommand,
+                Command="{Binding NewsChannelItemPageGoBackCommand,
                                   Mode=TwoWay}"
                 Content="Back" />
 

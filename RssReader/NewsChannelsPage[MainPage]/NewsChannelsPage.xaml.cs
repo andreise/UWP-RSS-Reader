@@ -35,12 +35,12 @@ namespace RssReader
 
         public NewsChannelsPageViewModel ViewModel => (NewsChannelsPageViewModel)this.DataContext;
 
-        public static RssNewsItem CurrentNewsItem { get; private set; }
+        public static RssChannel CurrentNewsChannel { get; private set; }
 
-        private void RssListView_ItemClick(object sender, ItemClickEventArgs e)
+        private void NewsChannelsListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            CurrentNewsItem = (RssNewsItem)e.ClickedItem;
-            this.Frame.Navigate(typeof(NewsItemPage));
+            CurrentNewsChannel = (RssChannel)e.ClickedItem;
+            this.Frame.Navigate(typeof(NewsChannelPage));
         }
     }
 }

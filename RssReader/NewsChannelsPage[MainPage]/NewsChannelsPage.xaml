@@ -8,30 +8,30 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <CollectionViewSource x:Name="RssChannels"
+        <CollectionViewSource x:Name="NewsChannels"
                               IsSourceGrouped="False"
                               ItemsPath=""
-                              Source="{x:Bind ViewModel.RssChannels}" />
+                              Source="{x:Bind ViewModel.NewsChannels}" />
 
-        <DataTemplate x:Name="RssChannelHeaderTemplate" x:DataType="data:RssChannel">
+        <DataTemplate x:Name="NewsChannelHeaderTemplate" x:DataType="data:RssChannel">
             <StackPanel Orientation="Vertical">
                 <Ellipse x:Name="Ellipse"
-                         Width="50"
-                         Height="50"
-                         Margin="4,4,4,4"
-                         HorizontalAlignment="Center"
+                         Width="40"
+                         Height="40"
+                         Margin="4,4,0,4"
+                         HorizontalAlignment="Left"
                          VerticalAlignment="Center"
                          Fill="LightGray" />
-                <TextBlock x:Name="RssChannelTitle"
+                <TextBlock x:Name="NewsChannelTitle"
                            Margin="4,4,0,4"
                            HorizontalAlignment="Center"
-                           x:Phase="2"
+                           x:Phase="1"
                            Style="{ThemeResource BodyTextBlockStyle}"
                            Text="{x:Bind Title}" />
-                <TextBlock x:Name="RssChannelLastBuildDate"
+                <TextBlock x:Name="NewsChannelLastBuildDate"
                            Margin="4,4,0,4"
                            HorizontalAlignment="Center"
-                           x:Phase="3"
+                           x:Phase="1"
                            FontSize="12"
                            Foreground="Gray"
                            Style="{ThemeResource BodyTextBlockStyle}"
@@ -41,33 +41,24 @@
 
     </Page.Resources>
 
-    <ListView x:Name="RssListView"
+    <ListView x:Name="NewsChannelsListView"
               IsItemClickEnabled="True"
-              ItemClick="RssListView_ItemClick"
-              ItemsSource="{Binding Source={StaticResource RssChannels}}">
+              ItemClick="NewsChannelsListView_ItemClick"
+              ItemsSource="{Binding Source={StaticResource NewsChannels}}">
 
         <ListView.GroupStyle>
-            <GroupStyle HeaderTemplate="{StaticResource RssChannelHeaderTemplate}" />
+            <GroupStyle HeaderTemplate="{StaticResource NewsChannelHeaderTemplate}" />
         </ListView.GroupStyle>
         <ListView.ItemTemplate>
-            <DataTemplate x:Name="RssNewsItemHeaderTemplate" x:DataType="data:RssChannel">
+            <DataTemplate x:Name="NewsChannelItemHeaderTemplate" x:DataType="data:RssChannel">
                 <StackPanel>
-                    <!--
-                    <Ellipse x:Name="RssChannelEllipse"
-                             Width="40"
-                             Height="40"
-                             Margin="4,4,0,4"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Fill="LightGray" />
-                    -->
-                    <TextBlock x:Name="RssChannelTitle"
+                    <TextBlock x:Name="NewsChannelTitle"
                                Margin="4,4,0,4"
                                HorizontalAlignment="Left"
                                x:Phase="1"
                                Style="{ThemeResource BodyTextBlockStyle}"
                                Text="{x:Bind Title}" />
-                    <TextBlock x:Name="RssChannelLastBuildDate"
+                    <TextBlock x:Name="NewsChannelLastBuildDate"
                                Margin="4,4,0,4"
                                HorizontalAlignment="Left"
                                x:Phase="2"
@@ -75,12 +66,19 @@
                                Foreground="Gray"
                                Style="{ThemeResource BodyTextBlockStyle}"
                                Text="{x:Bind LastBuildDate}" />
-                    <!--
-                    <Button Command="{Binding ElementName=RssListView, Path=DataContext.}" />
-                    -->
                 </StackPanel>
             </DataTemplate>
         </ListView.ItemTemplate>
+
+        <Button x:Name="BackButton"
+                Width="75"
+                Margin="10,10,10,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Command="{Binding NewsChannelPageGoBackCommand,
+                                  Mode=TwoWay}"
+                Content="Back" />
+
     </ListView>
 
 </Page>

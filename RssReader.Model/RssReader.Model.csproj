@@ -113,7 +113,7 @@
     <Compile Include="RssException.cs" />
     <Compile Include="RssManager.cs" />
     <Compile Include="RssManager.RssConstants.cs" />
-    <Compile Include="RssNewsItem.cs" />
+    <Compile Include="RssChannelItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RssReadingException.cs" />
     <EmbeddedResource Include="Properties\RssReader.Model.rd.xml" />

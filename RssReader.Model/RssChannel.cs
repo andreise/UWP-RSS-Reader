@@ -13,6 +13,11 @@ namespace RssReader.Model
     {
 
         /// <summary>
+        /// Original Uri
+        /// </summary>
+        public string Uri { get; }
+
+        /// <summary>
         /// Title
         /// </summary>
         public string Title { get; }
@@ -40,11 +45,12 @@ namespace RssReader.Model
         /// <summary>
         /// News Items
         /// </summary>
-        public IReadOnlyCollection<RssNewsItem> News { get; }
+        public IReadOnlyCollection<RssChannelItem> News { get; }
 
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="uri">Original Uri</param>
         /// <param name="title">Title</param>
         /// <param name="link">Link</param>
         /// <param name="description">Description</param>
@@ -52,24 +58,26 @@ namespace RssReader.Model
         /// <param name="lastBuildDate">LastBuildDate</param>
         /// <param name="news">News</param>
         public RssChannel(
+            string uri,
             string title,
             string link,
             string description,
             RssChannelImage image,
             string lastBuildDate,
-            IEnumerable<RssNewsItem> news
+            IEnumerable<RssChannelItem> news
         )
         {
+            this.Uri = uri ?? string.Empty;
             this.Title = title ?? string.Empty;
             this.Link = link ?? string.Empty;
             this.Description = description ?? string.Empty;
             this.Image = image ?? new RssChannelImage();
             this.LastBuildDate = lastBuildDate ?? string.Empty;
 
-            Func<IList<RssNewsItem>> copyNews = () =>
-                news?.Where(newsItem => (object)newsItem != null).ToArray() ?? new RssNewsItem[0];
+            Func<IList<RssChannelItem>> copyNews = () =>
+                news?.Where(newsItem => (object)newsItem != null).ToArray() ?? new RssChannelItem[0];
 
-            this.News = new ReadOnlyCollection<RssNewsItem>(copyNews());
+            this.News = new ReadOnlyCollection<RssChannelItem>(copyNews());
         }
 
     }

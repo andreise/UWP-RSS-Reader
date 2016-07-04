@@ -5,7 +5,7 @@ namespace RssReader.Model
     /// <summary>
     /// RSS News Item
     /// </summary>
-    public sealed class RssNewsItem
+    public sealed class RssChannelItem
     {
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace RssReader.Model
         /// <param name="description">Description</param>
         /// <param name="publishDate">Publish Date</param>
         /// <param name="guid">Guid</param>
-        public RssNewsItem(
+        public RssChannelItem(
             string title,
             string link,
             string description,

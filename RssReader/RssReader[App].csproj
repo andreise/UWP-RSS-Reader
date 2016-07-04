@@ -99,14 +99,14 @@
       <DependentUpon>NewsChannelsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="NewsChannelsPage[MainPage]\NewsChannelsPageViewModel.cs" />
-    <Compile Include="NewsFeedPage\NewsFeedPage.xaml.cs">
-      <DependentUpon>NewsFeedPage.xaml</DependentUpon>
+    <Compile Include="NewsChannelPage\NewsChannelPage.xaml.cs">
+      <DependentUpon>NewsChannelPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewsFeedPage\NewsFeedPageViewModel.cs" />
-    <Compile Include="NewsItemPage\NewsItemPage.xaml.cs">
-      <DependentUpon>NewsItemPage.xaml</DependentUpon>
+    <Compile Include="NewsChannelPage\NewsChannelPageViewModel.cs" />
+    <Compile Include="NewsChannelItemPage\NewsChannelItemPage.xaml.cs">
+      <DependentUpon>NewsChannelItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewsItemPage\NewsItemPageViewModel.cs" />
+    <Compile Include="NewsChannelItemPage\NewsChannelItemPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,11 +134,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NewsFeedPage\NewsFeedPage.xaml">
+    <Page Include="NewsChannelPage\NewsChannelPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NewsItemPage\NewsItemPage.xaml">
+    <Page Include="NewsChannelItemPage\NewsChannelItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

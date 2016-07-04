@@ -21,14 +21,14 @@ namespace RssReader
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NewsItemPage : Page
+    public sealed partial class NewsChannelItemPage : Page
     {
 
-        public NewsItemPage()
+        public NewsChannelItemPage()
         {
             this.InitializeComponent();
 
-            this.DataContext = new NewsItemPageViewModel(NewsChannelsPage.CurrentNewsItem, this);
+            this.DataContext = new NewsChannelItemPageViewModel(this, NewsChannelPage.CurrentNewsChannelItem);
 
             //string bigTextRow = new string('$', 1000);
             //var bigTextBuilder = new System.Text.StringBuilder((bigTextRow.Length + Environment.NewLine.Length) * 1000);
@@ -39,10 +39,10 @@ namespace RssReader
 
             //this.RssNewsItemWebView.NavigateToString(@"<HTML><HEAD><TITLE>Test Page</TITLE></HEAD><BODY><h3><b>Test</b> <u><i>Page</i></u></h3></BODY></HTML>");
 
-            this.RssNewsItemWebView.NavigateToString(this.ViewModel.NewsItem.Description);
+            this.RssNewsChannelItemWebView.NavigateToString(this.ViewModel.NewsChannelItem.Description);
         }
 
-        public NewsItemPageViewModel ViewModel => (NewsItemPageViewModel)this.DataContext;
+        public NewsChannelItemPageViewModel ViewModel => (NewsChannelItemPageViewModel)this.DataContext;
 
     }
 }
