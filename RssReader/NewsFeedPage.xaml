@@ -1,0 +1,76 @@
+﻿<Page x:Class="RssReader.NewsFeedPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:data="using:RssReader.Model"
+      xmlns:local="using:RssReader"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="RssChannelHasACollectionOfNews"
+                              IsSourceGrouped="true"
+                              ItemsPath="News"
+                              Source="{x:Bind ViewModel.RssChannels}" />
+
+        <DataTemplate x:Name="RssChannelHeaderTemplate" x:DataType="data:RssChannel">
+            <StackPanel Orientation="Vertical">
+                <Ellipse x:Name="Ellipse"
+                         Width="50"
+                         Height="50"
+                         Margin="4,4,4,4"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="LightGray" />
+                <TextBlock x:Name="RssChannelTitle"
+                           Margin="4,4,0,4"
+                           HorizontalAlignment="Center"
+                           x:Phase="2"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           Text="{x:Bind Title}" />
+                <TextBlock x:Name="RssChannelLastBuildDate"
+                           Margin="4,4,0,4"
+                           HorizontalAlignment="Center"
+                           x:Phase="3"
+                           FontSize="12"
+                           Foreground="Gray"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           Text="{x:Bind LastBuildDate}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <ListView x:Name="RssListView"
+              IsItemClickEnabled="True"
+              ItemClick="RssListView_ItemClick"
+              ItemsSource="{Binding Source={StaticResource RssChannelHasACollectionOfNews}}">
+        <ListView.GroupStyle>
+            <GroupStyle HeaderTemplate="{StaticResource RssChannelHeaderTemplate}" />
+        </ListView.GroupStyle>
+        <ListView.ItemTemplate>
+            <DataTemplate x:Name="RssNewsItemHeaderTemplate" x:DataType="data:RssNewsItem">
+                <StackPanel>
+                    <TextBlock x:Name="RssNewItemTitle"
+                               Margin="4,4,0,4"
+                               HorizontalAlignment="Left"
+                               x:Phase="2"
+                               Style="{ThemeResource BodyTextBlockStyle}"
+                               Text="{x:Bind Title}" />
+                    <TextBlock x:Name="RssNewItemPublishDate"
+                               Margin="4,4,0,4"
+                               HorizontalAlignment="Left"
+                               x:Phase="3"
+                               FontSize="12"
+                               Foreground="Gray"
+                               Style="{ThemeResource BodyTextBlockStyle}"
+                               Text="{x:Bind PublishDate}" />
+                    <!--
+                    <Button Command="{Binding ElementName=RssListView, Path=DataContext.}" />
+                    -->
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+</Page>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <useDefaultRssUriCollection>true</useDefaultRssUriCollection>
+  <defaultRssUriCollection>
+    <defaultRssUri>https://news.yandex.ru/sport.rss</defaultRssUri>
+    <defaultRssUri>https://news.yandex.ru/culture.rss</defaultRssUri>
+    <defaultRssUri>https://news.yandex.ru/science.rss</defaultRssUri>
+    <defaultRssUri>https://news.yandex.ru/computers.rss</defaultRssUri>
+  </defaultRssUriCollection>
+  <verifyRssVersion>false</verifyRssVersion>
+</configuration>
