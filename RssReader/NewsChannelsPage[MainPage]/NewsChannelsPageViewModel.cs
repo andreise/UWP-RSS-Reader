@@ -9,7 +9,7 @@ namespace RssReader
     using Configuration;
     using Model;
 
-    public sealed class MainPageViewModel
+    public sealed class NewsChannelsPageViewModel
     {
         private static class SettingParamNames
         {
@@ -21,7 +21,7 @@ namespace RssReader
         private static IReadOnlyList<RssChannel> LoadRssChannelsFromUriList(IReadOnlyList<string> uriList)
             => RssManager.LoadChannelsFromUriList(uriList, ConfigurationManager.Default.VerifyRssVersion);
 
-        public MainPageViewModel()
+        public NewsChannelsPageViewModel()
         {
             this.RssChannels = new ObservableCollection<RssChannel>(LoadRssChannelsFromUriList(AppSettingsManager.Default.RssUriCollection));
         }

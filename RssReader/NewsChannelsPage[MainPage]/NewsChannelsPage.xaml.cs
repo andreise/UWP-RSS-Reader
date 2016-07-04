@@ -22,18 +22,18 @@ namespace RssReader
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class NewsChannelsPage : Page
     {
-        public MainPage()
+        public NewsChannelsPage()
         {
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
-            this.DataContext = new MainPageViewModel();
+            this.DataContext = new NewsChannelsPageViewModel();
         }
 
-        public MainPageViewModel ViewModel => (MainPageViewModel)this.DataContext;
+        public NewsChannelsPageViewModel ViewModel => (NewsChannelsPageViewModel)this.DataContext;
 
         public static RssNewsItem CurrentNewsItem { get; private set; }
 

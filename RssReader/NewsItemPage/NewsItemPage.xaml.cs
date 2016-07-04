@@ -28,7 +28,7 @@ namespace RssReader
         {
             this.InitializeComponent();
 
-            this.DataContext = new NewsItemPageViewModel(MainPage.CurrentNewsItem, this);
+            this.DataContext = new NewsItemPageViewModel(NewsChannelsPage.CurrentNewsItem, this);
 
             //string bigTextRow = new string('$', 1000);
             //var bigTextBuilder = new System.Text.StringBuilder((bigTextRow.Length + Environment.NewLine.Length) * 1000);
