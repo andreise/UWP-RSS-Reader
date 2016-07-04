@@ -42,7 +42,7 @@ namespace RssReader.Model
         /// <returns>RSS channel instance list</returns>
         /// <exception cref="ArgumentNullException">Throws if the uri is null</exception>
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
-        public static IReadOnlyList<RssChannel> LoadChannelsFromUri(string uri, bool verifyRssVersion = false)
+        public static RssChannel LoadChannelFromUri(string uri, bool verifyRssVersion = false)
         {
             if ((object)uri == null)
                 throw new ArgumentNullException(nameof(uri));
@@ -106,7 +106,7 @@ namespace RssReader.Model
 
             try
             {
-                return new ReadOnlyCollection<RssChannel>(doc.Root.Elements(RssNames.Channel.Root).Select(convertToChannel).ToArray());
+                return convertToChannel(doc.Root.Element(RssNames.Channel.Root));
             }
             catch (Exception e)
             {
@@ -129,7 +129,7 @@ namespace RssReader.Model
 
             Contract.EndContractBlock();
 
-            return uriList.Where(uri => (object)uri != null).SelectMany(uri => LoadChannelsFromUri(uri, verifyRssVersion)).ToArray();
+            return uriList.Where(uri => (object)uri != null).Select(uri => LoadChannelFromUri(uri, verifyRssVersion)).ToArray();
         }
 
     }
