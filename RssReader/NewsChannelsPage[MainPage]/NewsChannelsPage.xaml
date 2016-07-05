@@ -12,7 +12,6 @@
                               IsSourceGrouped="False"
                               ItemsPath=""
                               Source="{x:Bind ViewModel.NewsChannels}" />
-
         <!--
         <DataTemplate x:Name="NewsChannelHeaderTemplate" x:DataType="data:RssChannel">
             <StackPanel Orientation="Vertical">
@@ -38,49 +37,68 @@
                            Style="{ThemeResource BodyTextBlockStyle}"
                            Text="{x:Bind LastBuildDate}" />
             </StackPanel>
-        </DataTemplate>
-        -->
-
+        </DataTemplate>-->
     </Page.Resources>
 
-    <ListView x:Name="NewsChannelsListView"
-              IsItemClickEnabled="True"
-              ItemClick="NewsChannelsListView_ItemClick"
-              ItemsSource="{Binding Source={StaticResource NewsChannels}}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <!--
+        <ListView x:Name="NewsChannelsListView"
+                  IsItemClickEnabled="True"
+                  IsRightTapEnabled="True"
+                  IsTapEnabled="True"
+                  ItemClick="NewsChannelsListView_ItemClick"
+                  ItemsSource="{Binding Source={StaticResource NewsChannels}}">
+
+            <!--
         <ListView.GroupStyle>
             <GroupStyle HeaderTemplate="{StaticResource NewsChannelHeaderTemplate}" />
         </ListView.GroupStyle>
-        -->
-        <ListView.ItemTemplate>
-            <DataTemplate x:Name="NewsChannelItemHeaderTemplate" x:DataType="data:RssChannel">
-                <StackPanel>
-                    <Ellipse x:Name="Ellipse"
-                             Width="40"
-                             Height="40"
-                             Margin="4,4,0,4"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Fill="LightGray" />
-                    <TextBlock x:Name="NewsChannelTitle"
-                               Margin="4,4,0,4"
-                               HorizontalAlignment="Left"
-                               x:Phase="1"
-                               Style="{ThemeResource BodyTextBlockStyle}"
-                               Text="{x:Bind Title}" />
-                    <TextBlock x:Name="NewsChannelLastBuildDate"
-                               Margin="4,4,0,4"
-                               HorizontalAlignment="Left"
-                               x:Phase="2"
-                               FontSize="12"
-                               Foreground="Gray"
-                               Style="{ThemeResource BodyTextBlockStyle}"
-                               Text="{x:Bind LastBuildDate}" />
-                </StackPanel>
-            </DataTemplate>
-        </ListView.ItemTemplate>
+            -->
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="NewsChannelItemHeaderTemplate" x:DataType="data:RssChannel">
+                    <StackPanel Holding="StackPanel_Holding" RightTapped="StackPanel_RightTapped">
+                        <FlyoutBase.AttachedFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Name="DeleteNewsChannel"
+                                                Click="DeleteNewsChannel_Click"
+                                                Text="Delete" />
+                            </MenuFlyout>
+                        </FlyoutBase.AttachedFlyout>
+                        <Ellipse x:Name="Ellipse"
+                                 Width="40"
+                                 Height="40"
+                                 Margin="4,4,0,4"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
+                                 Fill="LightGray" />
+                        <TextBlock x:Name="NewsChannelTitle"
+                                   Margin="4,4,0,4"
+                                   HorizontalAlignment="Left"
+                                   x:Phase="1"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind Title}" />
+                        <TextBlock x:Name="NewsChannelLastBuildDate"
+                                   Margin="4,4,0,4"
+                                   HorizontalAlignment="Left"
+                                   x:Phase="2"
+                                   FontSize="12"
+                                   Foreground="Gray"
+                                   Style="{ThemeResource BodyTextBlockStyle}"
+                                   Text="{x:Bind LastBuildDate}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
 
-    </ListView>
+        </ListView>
+
+        <Button x:Name="DeleteNewsChannelButton"
+                Width="75"
+                Margin="10,10,10,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Click="DeleteNewsChannel_Click"
+                Content="Delete" />
+
+    </Grid>
 
 </Page>

@@ -72,7 +72,7 @@ namespace RssReader.AppSettings
 
         private void RssUriCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.NewItems.Cast<string>().Any(item => string.IsNullOrWhiteSpace(item)))
+            if ((object)e.NewItems != null && e.NewItems.Cast<string>().Any(item => string.IsNullOrWhiteSpace(item)))
             {
                 throw new InvalidOperationException("Empty uri not allowed.");
             }
