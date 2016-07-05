@@ -39,6 +39,8 @@ namespace RssReader
 
         public static RssChannel CurrentNewsChannel { get; private set; }
 
+        public int GetSelectedItemIndex() => this.NewsChannelsListView.SelectedIndex;
+
         private void NewsChannelsListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             CurrentNewsChannel = (RssChannel)e.ClickedItem;
@@ -48,15 +50,29 @@ namespace RssReader
 
         private async void DeleteNewsChannel_Click(object sender, RoutedEventArgs e)
         {
+            if (this.ViewModel.NewsChannels.Count == 0)
+                return;
+
+            const string yesId = "YES";
+            const string noId = "NO";
+
             var dialog = new MessageDialog("Are you sure to delete news channel?", "Deleting news channel");
+
             dialog.Commands.Clear();
-            dialog.Commands.Add(new UICommand("Yes", null, "YES"));
-            dialog.Commands.Add(new UICommand("No", null, "NO"));
+            dialog.Commands.Add(new UICommand("Yes", null, yesId));
+            dialog.Commands.Add(new UICommand("No", null, noId));
+
             IUICommand command = await dialog.ShowAsync();
-            if (command.Id.Equals("YES"))
+
+            if (command.Id.Equals(yesId))
             {
                 int indexToRemove = this.NewsChannelsListView.SelectedIndex;
                 this.ViewModel.NewsChannels.RemoveAt(indexToRemove);
+                if (this.ViewModel.NewsChannels.Count > 0)
+                {
+                    if ((object)this.NewsChannelsListView.SelectedItem == null)
+                        this.NewsChannelsListView.SelectedItem = this.ViewModel.NewsChannels[0];
+                }
                 AppSettingsManager.Default.RssUriCollection.RemoveAt(indexToRemove);
             }
         }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace RssReader
 {
