@@ -12,6 +12,7 @@ namespace RssReader
     using Common;
     using Configuration;
     using Model;
+    using static Common.FormattableString;
 
     public sealed class NewsChannelsPageViewModel
     {
@@ -21,7 +22,12 @@ namespace RssReader
         private static IEnumerable<RssChannel> LoadRssChannelsFromUriCollection(IEnumerable<string> uriCollection)
             => RssManager.LoadChannelsFromUriCollection(uriCollection, ConfigurationManager.Default.VerifyRssVersion);
 
+        private static RssChannel LoadChannelFromUri(string uri)
+            => RssManager.LoadChannelFromUri(uri, ConfigurationManager.Default.VerifyRssVersion);
+
         public ICommand NavigateAddNewsChannelPageCommand { get; }
+
+        private readonly NewsChannelsPage owner;
 
         public NewsChannelsPageViewModel(NewsChannelsPage owner)
         {
@@ -30,8 +36,9 @@ namespace RssReader
 
             Contract.EndContractBlock();
 
+            this.owner = owner;
             this.NewsChannels = new ObservableCollection<RssChannel>(LoadRssChannelsFromUriCollection(AppSettingsManager.Default.RssUriCollection));
-            this.NavigateAddNewsChannelPageCommand = new CommandHandler(() => owner.Frame.Navigate(typeof(AddNewsChannelPage)));
+            this.NavigateAddNewsChannelPageCommand = new CommandHandler(() => this.owner.Frame.Navigate(typeof(AddNewsChannelPage)));
         }
 
         public void AddNewsChannel(string uri)
@@ -47,9 +54,22 @@ namespace RssReader
 
             Contract.EndContractBlock();
 
-            this.NewsChannels.Add(
-                RssManager.LoadChannelFromUri(uri, ConfigurationManager.Default.VerifyRssVersion)
-            );
+            RssChannel channelToAdd = null;
+            try
+            {
+                channelToAdd = LoadChannelFromUri(uri);
+            }
+            catch (Exception e)
+            {
+                owner.ShowMessage(
+                    Invariant($"Error occured during news loading: {e.Message}."),
+                    "News loading error"
+                );
+            }
+            if ((object)channelToAdd != null)
+            {
+                this.NewsChannels.Add(channelToAdd);
+            }
         }
 
     }
