@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
-using Windows.Networking;
+using static Common.FormattableString;
 
 namespace RssReader.Model
 {
@@ -78,10 +78,12 @@ namespace RssReader.Model
 
             if (verifyRssVersion)
             {
-                if (!(
-                    SupportedRssVersions.Any(version => version.ToString() == doc.Root.Attribute(RssNames.VersionAttribute)?.Value.Trim())
-                ))
-                    throw new RssReadingException("Input RSS has an unsupported version.");
+                string inputRssVersion = doc.Root.Attribute(RssNames.VersionAttribute)?.Value.Trim() ?? string.Empty;
+                if (
+                    inputRssVersion.Length == 0 ||
+                    !SupportedRssVersions.Any(version => version.ToString() == inputRssVersion)
+                )
+                    throw new RssReadingException(Invariant($"Input RSS has an unsupported version ({inputRssVersion})."));
             }
 
             Func<XElement, RssChannelImage> convertToChannelImage = channelImageElement =>

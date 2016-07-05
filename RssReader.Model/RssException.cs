@@ -13,7 +13,7 @@ namespace RssReader.Model
         /// </summary>
         /// <param name="message">Message</param>
         /// <param name="innerException">Inner exception</param>
-        public RssException(string message, Exception innerException) : base(message ?? string.Empty, innerException)
+        internal RssException(string message, Exception innerException) : base(message ?? string.Empty, innerException)
         {
         }
 
@@ -21,7 +21,7 @@ namespace RssReader.Model
         /// Constructor
         /// </summary>
         /// <param name="message">Message</param>
-        public RssException(string message) : this(message, null)
+        internal RssException(string message) : this(message, null)
         {
         }
 

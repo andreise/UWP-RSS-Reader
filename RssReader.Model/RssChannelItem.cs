@@ -41,7 +41,7 @@ namespace RssReader.Model
         /// <param name="description">Description</param>
         /// <param name="publishDate">Publish Date</param>
         /// <param name="guid">Guid</param>
-        public RssChannelItem(
+        internal RssChannelItem(
             string title,
             string link,
             string description,

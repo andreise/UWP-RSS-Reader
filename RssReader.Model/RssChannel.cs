@@ -58,7 +58,7 @@ namespace RssReader.Model
         /// <param name="image">Image</param>
         /// <param name="lastBuildDate">LastBuildDate</param>
         /// <param name="news">News</param>
-        public RssChannel(
+        internal RssChannel(
             string uri,
             string title,
             string link,

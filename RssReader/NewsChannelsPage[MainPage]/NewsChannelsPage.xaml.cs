@@ -33,7 +33,30 @@ namespace RssReader
 
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
-            this.DataContext = new NewsChannelsPageViewModel();
+            this.DataContext = new NewsChannelsPageViewModel(this);
+
+            this.Loaded += this.NewsChannelsPage_Loaded;
+        }
+
+        private void NewsChannelsPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigated += Frame_Navigated;
+        }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            if (e.NavigationMode != NavigationMode.Back)
+                return;
+
+            if (string.IsNullOrWhiteSpace(AddNewsChannelPage.NewRssUri))
+                return;
+
+            string newRssUriString = AddNewsChannelPage.NewRssUri;
+
+            if (!this.ViewModel.NewsChannels.Any(channel => new Uri(channel.Uri).Equals(newRssUriString)))
+            {
+
+            }
         }
 
         public NewsChannelsPageViewModel ViewModel => (NewsChannelsPageViewModel)this.DataContext;
