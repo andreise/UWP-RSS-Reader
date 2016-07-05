@@ -58,7 +58,7 @@ namespace RssReader.Model
 
         public string TitleWithPublishDate => Invariant($"{this.Title} ({this.PublishDate})");
 
-        public override string ToString() => TitleWithPublishDate;
+        public override string ToString() => this.TitleWithPublishDate;
 
     }
 }

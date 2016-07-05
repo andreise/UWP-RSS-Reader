@@ -20,6 +20,7 @@ namespace RssReader
 {
     using AppSettings;
     using Model;
+    using static Common.FormattableString;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -56,7 +57,12 @@ namespace RssReader
             const string yesId = "YES";
             const string noId = "NO";
 
-            var dialog = new MessageDialog("Are you sure to delete news channel?", "Deleting news channel");
+            int indexToRemove = this.NewsChannelsListView.SelectedIndex;
+
+            var dialog = new MessageDialog(
+                Invariant($"Are you sure to delete news channel '{this.ViewModel.NewsChannels[indexToRemove].Title}'?"),
+                "Deleting news channel"
+            );
 
             dialog.Commands.Clear();
             dialog.Commands.Add(new UICommand("Yes", null, yesId));
@@ -66,7 +72,6 @@ namespace RssReader
 
             if (command.Id.Equals(yesId))
             {
-                int indexToRemove = this.NewsChannelsListView.SelectedIndex;
                 this.ViewModel.NewsChannels.RemoveAt(indexToRemove);
                 if (this.ViewModel.NewsChannels.Count > 0)
                 {

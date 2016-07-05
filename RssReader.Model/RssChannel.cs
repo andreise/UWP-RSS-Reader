@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using static Common.FormattableString;
 
 namespace RssReader.Model
 {
@@ -79,6 +80,10 @@ namespace RssReader.Model
 
             this.News = new ReadOnlyCollection<RssChannelItem>(copyNews());
         }
+
+        public string TitleWithLastBuildDate => Invariant($"{this.Title} ({this.LastBuildDate})");
+
+        public override string ToString() => this.TitleWithLastBuildDate;
 
     }
 }
