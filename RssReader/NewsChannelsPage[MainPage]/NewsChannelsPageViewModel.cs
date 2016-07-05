@@ -47,7 +47,9 @@ namespace RssReader
 
             Contract.EndContractBlock();
 
-            RssManager.LoadChannelFromUri(uri, ConfigurationManager.Default.VerifyRssVersion);
+            this.NewsChannels.Add(
+                RssManager.LoadChannelFromUri(uri, ConfigurationManager.Default.VerifyRssVersion)
+            );
         }
 
     }
