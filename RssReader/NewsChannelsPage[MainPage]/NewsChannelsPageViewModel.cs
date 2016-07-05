@@ -25,6 +25,24 @@ namespace RssReader
         private static RssChannel LoadChannelFromUri(string uri)
             => RssManager.LoadChannelFromUri(uri, ConfigurationManager.Default.VerifyRssVersion);
 
+        private static RssChannel LoadChannelFromUri(string uri, Action<Exception> exceptionHandler, bool rethrowException)
+        {
+            if ((object)exceptionHandler == null)
+                return LoadChannelFromUri(uri);
+
+            try
+            {
+                return LoadChannelFromUri(uri);
+            }
+            catch (Exception e)
+            {
+                exceptionHandler(e);
+                if (rethrowException)
+                    throw;
+                return null;
+            }
+        }
+
         public ICommand NavigateAddNewsChannelPageCommand { get; }
 
         private readonly NewsChannelsPage owner;
@@ -54,22 +72,13 @@ namespace RssReader
 
             Contract.EndContractBlock();
 
-            RssChannel channelToAdd = null;
-            try
-            {
-                channelToAdd = LoadChannelFromUri(uri);
-            }
-            catch (Exception e)
-            {
-                owner.ShowMessage(
-                    Invariant($"Error occured during news loading: {e.Message}."),
-                    "News loading error"
-                );
-            }
+            RssChannel channelToAdd = LoadChannelFromUri(
+                uri,
+                e => owner.ShowMessage(Invariant($"Error occured during news loading: {e.Message}"), "News loading error"),
+                rethrowException: false
+            );
             if ((object)channelToAdd != null)
-            {
                 this.NewsChannels.Add(channelToAdd);
-            }
         }
 
     }
