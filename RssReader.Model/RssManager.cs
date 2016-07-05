@@ -43,7 +43,7 @@ namespace RssReader.Model
         /// <exception cref="ArgumentNullException">Throws if the uri is null</exception>
         /// <exception cref="ArgumentException">Throws if the uri is empty or whitespace</exception>
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
-        public static RssChannel LoadChannelFromUri(string uri, bool verifyRssVersion = false)
+        public static RssChannel LoadChannelFromUri(string uri, bool verifyRssVersion)
         {
             if ((object)uri == null)
                 throw new ArgumentNullException(paramName: nameof(uri));
