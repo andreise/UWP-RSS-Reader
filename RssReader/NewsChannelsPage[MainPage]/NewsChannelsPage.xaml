@@ -91,9 +91,16 @@
 
         </ListView>
 
+        <Button x:Name="AddNewsChannelButton"
+                Width="75"
+                Margin="10,0,0,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Content="Add" />
+
         <Button x:Name="DeleteNewsChannelButton"
                 Width="75"
-                Margin="10,10,10,10"
+                Margin="90,0,0,10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Click="DeleteNewsChannel_Click"
