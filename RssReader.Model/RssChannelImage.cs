@@ -28,7 +28,7 @@
         /// <param name="url">Url</param>
         /// <param name="link">Link</param>
         /// <param name="title">Title</param>
-        internal RssChannelImage(
+        public RssChannelImage(
             string url,
             string link,
             string title
@@ -42,7 +42,7 @@
         /// <summary>
         /// Constructor
         /// </summary>
-        internal RssChannelImage(): this(null, null, null)
+        public RssChannelImage(): this(null, null, null)
         {
         }
 

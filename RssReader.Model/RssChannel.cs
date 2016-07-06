@@ -14,9 +14,15 @@ namespace RssReader.Model
     {
 
         /// <summary>
-        /// Original Uri
+        /// Original Uri String
         /// </summary>
-        public string Uri { get; }
+        public string OriginalUriString { get; }
+
+        /// <summary>
+        /// Uri got from Original Uri String.
+        /// Null if Original Uri String is incorrect
+        /// </summary>
+        public Uri Uri { get; }
 
         /// <summary>
         /// Title
@@ -58,7 +64,7 @@ namespace RssReader.Model
         /// <param name="image">Image</param>
         /// <param name="lastBuildDate">LastBuildDate</param>
         /// <param name="news">News</param>
-        internal RssChannel(
+        public RssChannel(
             string uri,
             string title,
             string link,
@@ -68,7 +74,17 @@ namespace RssReader.Model
             IEnumerable<RssChannelItem> news
         )
         {
-            this.Uri = uri ?? string.Empty;
+            this.OriginalUriString = uri ?? string.Empty;
+
+            try
+            {
+                this.Uri = new Uri(this.OriginalUriString);
+            }
+            catch
+            {
+                this.Uri = null;
+            }
+
             this.Title = title ?? string.Empty;
             this.Link = link ?? string.Empty;
             this.Description = description ?? string.Empty;

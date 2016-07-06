@@ -53,7 +53,7 @@ namespace RssReader
 
             string newRssUriString = AddNewsChannelPage.NewRssUri;
 
-            if (!this.ViewModel.NewsChannels.Any(channel => new Uri(channel.Uri).Equals(newRssUriString)))
+            if (!this.ViewModel.NewsChannels.Any(channel => channel.Uri?.Equals(newRssUriString) ?? false))
             {
                 this.ViewModel.AddNewsChannel(newRssUriString);
             }
