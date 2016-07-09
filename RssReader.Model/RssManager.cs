@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
-using static Common.FormattableString;
+using static System.FormattableString;
 
 namespace RssReader.Model
 {

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows.Input;
-using System.Threading.Tasks;
+using static System.FormattableString;
 
 namespace RssReader
 {
@@ -12,7 +12,6 @@ namespace RssReader
     using Common;
     using Configuration;
     using Model;
-    using static Common.FormattableString;
 
     public sealed class NewsChannelsPageViewModel
     {

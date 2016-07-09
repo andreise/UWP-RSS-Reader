@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
-using static Common.FormattableString;
+using static System.FormattableString;
 
 namespace RssReader.Model
 {

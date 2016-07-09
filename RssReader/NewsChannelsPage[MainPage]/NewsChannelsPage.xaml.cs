@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
+using static System.FormattableString;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -20,7 +21,6 @@ namespace RssReader
 {
     using AppSettings;
     using Model;
-    using static Common.FormattableString;
 
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.

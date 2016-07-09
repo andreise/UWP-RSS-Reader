@@ -1,4 +1,4 @@
-﻿using static Common.FormattableString;
+﻿using static System.FormattableString;
 
 namespace RssReader.Model
 {

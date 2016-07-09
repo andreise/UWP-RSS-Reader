@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static Common.FormattableString;
+using static System.FormattableString;
 
 namespace RssReader.Model
 {
