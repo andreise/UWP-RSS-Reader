@@ -3,41 +3,46 @@ using System.Windows.Input;
 
 namespace Common
 {
+
     public class CommandHandler : ICommand
     {
 
-        private readonly Func<object, bool> canExecuteFunc;
+        private static Func<object, bool> ConvertCanExecute(Func<bool> canExecute) =>
+            (object)canExecute == null ? null : new Func<object, bool>(parameter => canExecute());
 
-        private readonly Action<object> executeAction;
+        private static Action<object> ConvertExecute(Action execute) =>
+            (object)execute == null ? null : new Action<object>(parameter => execute());
 
-        public CommandHandler(Func<object, bool> canExecuteFunc, Action<object> executeAction)
+        private readonly Func<object, bool> canExecute;
+
+        private readonly Action<object> execute;
+
+        public CommandHandler(Func<object, bool> canExecute, Action<object> execute)
         {
-            this.canExecuteFunc = canExecuteFunc ?? ((object)executeAction == null ? (Func<object, bool>)(parameter => false) : parameter => true);
-            this.executeAction = executeAction ?? (parameter => { });
+            this.canExecute = canExecute;
+            this.execute = execute;
         }
 
-        public CommandHandler(Action<object> executeAction) : this(null, executeAction)
-        {
-        }
-
-        public CommandHandler(Func<bool> canExecuteFunc, Action executeAction) : this(
-            (object)canExecuteFunc == null ? (Func<object, bool>)null : parameter => canExecuteFunc(),
-            (object)executeAction == null ? (Action<object>)null : parameter => executeAction()
-        )
-        {
-        }
-
-        public CommandHandler(Action executeAction) : this(null, executeAction)
+        public CommandHandler(Action<object> execute) : this(null, execute)
         {
         }
 
-        protected virtual void OnCanExecuteChanged(EventArgs e) => this.CanExecuteChanged?.Invoke(this, e);
+        public CommandHandler(Func<bool> canExecute, Action execute) : this(ConvertCanExecute(canExecute), ConvertExecute(execute))
+        {
+        }
+
+        public CommandHandler(Action execute) : this(null, execute)
+        {
+        }
 
         public event EventHandler CanExecuteChanged;
 
-        public bool CanExecute(object parameter) => this.canExecuteFunc(parameter);
+        protected virtual void OnCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
-        public void Execute(object parameter) => this.executeAction(parameter);
+        public bool CanExecute(object parameter) => this.canExecute?.Invoke(parameter) ?? (object)this.execute != null;
+
+        public void Execute(object parameter) => this.execute?.Invoke(parameter);
 
     }
+
 }
