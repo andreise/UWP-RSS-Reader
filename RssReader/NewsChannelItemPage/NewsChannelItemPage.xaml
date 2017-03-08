@@ -7,14 +7,20 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" Margin="8,8,8,8">
             <TextBlock x:Name="RssNewItemTitle"
-                       Margin="4,4,0,4"
+                       Margin="0,0,0,8"
                        HorizontalAlignment="Left"
                        Style="{ThemeResource BodyTextBlockStyle}"
                        Text="{x:Bind ViewModel.NewsChannelItem.Title}" />
             <TextBlock x:Name="RssNewItemPublishDate"
-                       Margin="4,4,0,4"
                        HorizontalAlignment="Left"
                        FontSize="12"
                        Foreground="Gray"
@@ -22,14 +28,16 @@
                        Text="{x:Bind ViewModel.NewsChannelItem.PublishDate}" />
         </StackPanel>
 
-        <WebView x:Name="RssNewsChannelItemWebView"
-                 Margin="10,69,10,47"
+        <ScrollViewer Grid.Row="1">
+            <WebView x:Name="RssNewsChannelItemWebView"
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Stretch" />
+        </ScrollViewer>
 
         <Button x:Name="BackButton"
+                Grid.Row="2"
                 Width="75"
-                Margin="10,10,10,10"
+                Margin="8,8,8,8"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Command="{Binding NewsChannelItemPageGoBackCommand,

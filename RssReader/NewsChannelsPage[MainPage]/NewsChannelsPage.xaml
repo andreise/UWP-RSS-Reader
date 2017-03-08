@@ -37,12 +37,19 @@
                            Style="{ThemeResource BodyTextBlockStyle}"
                            Text="{x:Bind LastBuildDate}" />
             </StackPanel>
-        </DataTemplate>-->
+        </DataTemplate>
+        -->
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         <ListView x:Name="NewsChannelsListView"
+                  Grid.Row="0"
                   IsItemClickEnabled="True"
                   IsRightTapEnabled="True"
                   IsTapEnabled="True"
@@ -50,9 +57,9 @@
                   ItemsSource="{Binding Source={StaticResource NewsChannels}}">
 
             <!--
-        <ListView.GroupStyle>
-            <GroupStyle HeaderTemplate="{StaticResource NewsChannelHeaderTemplate}" />
-        </ListView.GroupStyle>
+            <ListView.GroupStyle>
+                <GroupStyle HeaderTemplate="{StaticResource NewsChannelHeaderTemplate}" />
+            </ListView.GroupStyle>
             -->
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="NewsChannelItemHeaderTemplate" x:DataType="data:RssChannel">
@@ -91,22 +98,21 @@
 
         </ListView>
 
-        <Button x:Name="AddNewsChannelButton"
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8,8,8,8">
+
+            <Button x:Name="AddNewsChannelButton"
                 Width="75"
-                Margin="10,0,0,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
+                Margin="0,0,10,0"
                 Command="{Binding NavigateAddNewsChannelPageCommand,
                                   Mode=TwoWay}"
                 Content="Add" />
 
-        <Button x:Name="DeleteNewsChannelButton"
+            <Button x:Name="DeleteNewsChannelButton"
                 Width="75"
-                Margin="90,0,0,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
                 Click="DeleteNewsChannel_Click"
                 Content="Delete" />
+
+        </StackPanel>
 
     </Grid>
 

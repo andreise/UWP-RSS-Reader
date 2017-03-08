@@ -43,7 +43,13 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         <ListView x:Name="NewsChannelListView"
+                  Grid.Row="0"
                   IsItemClickEnabled="True"
                   ItemClick="NewsChannelListView_ItemClick"
                   ItemsSource="{Binding Source={StaticResource NewsChannel}}">
@@ -52,15 +58,14 @@
             </ListView.GroupStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="NewsChannelItemHeaderTemplate" x:DataType="data:RssChannelItem">
-                    <StackPanel>
+                    <StackPanel Margin="8,8,8,8">
                         <TextBlock x:Name="NewChannelItemTitle"
-                                   Margin="4,4,0,4"
+                                   Margin="0,0,0,8"
                                    HorizontalAlignment="Left"
                                    x:Phase="2"
                                    Style="{ThemeResource BodyTextBlockStyle}"
                                    Text="{x:Bind Title}" />
                         <TextBlock x:Name="NewChannelItemPublishDate"
-                                   Margin="4,4,0,4"
                                    HorizontalAlignment="Left"
                                    x:Phase="3"
                                    FontSize="12"
@@ -73,10 +78,9 @@
         </ListView>
 
         <Button x:Name="BackButton"
+                Grid.Row="1"
                 Width="75"
-                Margin="10,0,0,10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
+                Margin="8,8,8,8"
                 Command="{Binding NewsChannelPageGoBackCommand,
                                   Mode=TwoWay}"
                 Content="Back" />
