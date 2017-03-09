@@ -41,7 +41,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Command="{Binding NewsChannelItemPageGoBackCommand,
-                                  Mode=TwoWay}"
+                                  Mode=OneWay}"
                 Content="Back" />
 
     </Grid>

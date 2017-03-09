@@ -82,7 +82,7 @@
                 Width="75"
                 Margin="8,8,8,8"
                 Command="{Binding NewsChannelPageGoBackCommand,
-                                  Mode=TwoWay}"
+                                  Mode=OneWay}"
                 Content="Back" />
 
     </Grid>
