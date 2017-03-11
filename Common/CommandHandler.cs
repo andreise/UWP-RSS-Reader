@@ -8,10 +8,10 @@ namespace Common
     {
 
         private static Func<object, bool> ConvertCanExecute(Func<bool> canExecute) =>
-            (object)canExecute == null ? null : new Func<object, bool>(parameter => canExecute());
+            canExecute is null ? null : new Func<object, bool>(parameter => canExecute());
 
         private static Action<object> ConvertExecute(Action execute) =>
-            (object)execute == null ? null : new Action<object>(parameter => execute());
+            execute is null ? null : new Action<object>(parameter => execute());
 
         private readonly Func<object, bool> canExecute;
 
@@ -39,7 +39,7 @@ namespace Common
 
         protected virtual void OnCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
-        public bool CanExecute(object parameter) => this.canExecute?.Invoke(parameter) ?? (object)this.execute != null;
+        public bool CanExecute(object parameter) => this.canExecute?.Invoke(parameter) ?? !(this.execute is null);
 
         public void Execute(object parameter) => this.execute?.Invoke(parameter);
 
