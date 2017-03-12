@@ -115,10 +115,18 @@ namespace RssReader
             if (command.Id.Equals(yesId))
             {
                 this.ViewModel.NewsChannels.RemoveAt(indexToRemove);
-                if (this.ViewModel.NewsChannels.Count > 0)
+
+                if (
+                    this.ViewModel.NewsChannels.Count > 0 &&
+                    this.NewsChannelsListView.SelectedItem is null
+                )
                 {
-                    if (this.NewsChannelsListView.SelectedItem is null)
-                        this.NewsChannelsListView.SelectedItem = this.ViewModel.NewsChannels[0];
+                    this.NewsChannelsListView.SelectedItem = this.ViewModel.NewsChannels[0];
+
+                    if (indexToRemove > this.NewsChannelsListView.Items.Count - 1)
+                        this.NewsChannelsListView.SelectedIndex = NewsChannelsListView.Items.Count - 1;
+                    else
+                        this.NewsChannelsListView.SelectedIndex = indexToRemove;
                 }
             }
         }
