@@ -12,12 +12,14 @@ namespace RssReader.Model
 
         private static string GenerateUniqueFileName() => Path.GetRandomFileName();
 
+        private static async Task<IStorageFile> CreateTempFileAsync() => await ApplicationData.Current.TemporaryFolder.CreateFileAsync(
+            GenerateUniqueFileName(),
+            CreationCollisionOption.GenerateUniqueName
+        );
+
         private static IStorageFile CreateTempFile()
         {
-            Task<StorageFile> task = ApplicationData.Current.TemporaryFolder.CreateFileAsync(
-                GenerateUniqueFileName(),
-                CreationCollisionOption.GenerateUniqueName
-            ).AsTask();
+            var task = Task.Run(() => CreateTempFileAsync());
             task.Wait();
             return task.Result;
         }
