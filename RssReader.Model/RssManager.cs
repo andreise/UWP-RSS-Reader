@@ -10,6 +10,7 @@ using static System.FormattableString;
 
 namespace RssReader.Model
 {
+
     /// <summary>
     /// RSS Manager
     /// </summary>
@@ -120,12 +121,6 @@ namespace RssReader.Model
             }
         }
 
-        public static RssChannel LoadChannel(string uri, bool verifyRssVersion)
-        {
-            var task = Task.Run(() => LoadChannelAsync(uri, verifyRssVersion));
-            task.Wait();
-            return task.Result;
-        }
-
     }
+
 }

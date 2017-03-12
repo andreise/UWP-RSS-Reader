@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using static System.FormattableString;
 
@@ -16,17 +17,17 @@ namespace RssReader
     public sealed class NewsChannelsPageViewModel
     {
 
-        private static RssChannel LoadChannel(string uri) =>
-            RssManager.LoadChannel(uri, ConfigurationManager.Default.VerifyRssVersion);
+        private static async Task<RssChannel> LoadChannelAsync(string uri) =>
+            await RssManager.LoadChannelAsync(uri, ConfigurationManager.Default.VerifyRssVersion);
 
-        private static RssChannel LoadChannel(string uri, Action<Exception> exceptionHandler, bool rethrowException)
+        private static async Task<RssChannel> LoadChannelAsync(string uri, Action<Exception> exceptionHandler, bool rethrowException)
         {
             if (exceptionHandler is null && rethrowException)
-                return LoadChannel(uri);
+                return await LoadChannelAsync(uri);
 
             try
             {
-                return LoadChannel(uri);
+                return await LoadChannelAsync(uri);
             }
             catch (Exception e)
             {
@@ -40,14 +41,14 @@ namespace RssReader
             }
         }
 
-        private static IEnumerable<RssChannel> LoadRssChannelsWithExceptionHandling(IEnumerable<string> uriCollection)
+        private static async Task<IEnumerable<RssChannel>> LoadRssChannelsWithExceptionHandlingAsync(IEnumerable<string> uriCollection)
         {
             List<RssChannel> channels = new List<RssChannel>();
 
             foreach (string uri in uriCollection)
             {
                 string errorMessage = null;
-                RssChannel channel = LoadChannel(
+                RssChannel channel = await LoadChannelAsync(
                     uri,
                     e => { errorMessage = e.Message; },
                     rethrowException: false
@@ -68,6 +69,13 @@ namespace RssReader
             }
 
             return channels;
+        }
+
+        private static IEnumerable<RssChannel> LoadRssChannelsWithExceptionHandling(IEnumerable<string> uriCollection)
+        {
+            var task = Task.Run(() => LoadRssChannelsWithExceptionHandlingAsync(uriCollection));
+            task.Wait();
+            return task.Result;
         }
 
         private readonly NewsChannelsPage owner;
@@ -92,7 +100,7 @@ namespace RssReader
             this.NavigateAddNewsChannelPageCommand = new CommandHandler(() => this.owner.Frame.Navigate(typeof(AddNewsChannelPage)));
         }
 
-        public void AddNewsChannel(string uri)
+        public async Task AddNewsChannelAsync(string uri)
         {
             if (uri is null)
                 throw new ArgumentNullException(paramName: nameof(uri));
@@ -105,7 +113,7 @@ namespace RssReader
 
             Contract.EndContractBlock();
 
-            RssChannel channelToAdd = LoadChannel(
+            RssChannel channelToAdd = await LoadChannelAsync(
                 uri,
                 e => this.OnNewsChannelLoadingFailed(Invariant($"Error occured during news loading: {e.Message}")),
                 rethrowException: false

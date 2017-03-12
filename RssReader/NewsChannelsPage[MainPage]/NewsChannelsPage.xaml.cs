@@ -50,7 +50,7 @@ namespace RssReader
             await dialog.ShowAsync();
         }
 
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        private async void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             if (e.NavigationMode != NavigationMode.Back)
                 return;
@@ -62,7 +62,7 @@ namespace RssReader
 
             if (!this.ViewModel.NewsChannels.Any(channel => channel.Uri?.Equals(newRssUriString) ?? false))
             {
-                this.ViewModel.AddNewsChannel(newRssUriString);
+                await this.ViewModel.AddNewsChannelAsync(newRssUriString);
             }
         }
 
