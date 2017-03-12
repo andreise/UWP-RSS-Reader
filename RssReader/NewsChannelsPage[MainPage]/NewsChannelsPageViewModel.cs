@@ -19,10 +19,10 @@ namespace RssReader
         public ObservableCollection<RssChannel> NewsChannels { get; }
 
         private static IEnumerable<RssChannel> LoadRssChannelsFromUriCollection(IEnumerable<string> uriCollection)
-            => RssManager.LoadChannelsFromUriCollection(uriCollection, ConfigurationManager.Default.VerifyRssVersion);
+            => RssManager.LoadChannels(uriCollection, ConfigurationManager.Default.VerifyRssVersion);
 
         private static RssChannel LoadChannelFromUri(string uri)
-            => RssManager.LoadChannelFromUri(uri, ConfigurationManager.Default.VerifyRssVersion);
+            => RssManager.LoadChannel(uri, ConfigurationManager.Default.VerifyRssVersion);
 
         private static RssChannel LoadChannelFromUri(string uri, Action<Exception> exceptionHandler, bool rethrowException)
         {

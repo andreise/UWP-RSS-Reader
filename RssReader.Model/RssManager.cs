@@ -43,7 +43,7 @@ namespace RssReader.Model
         /// <exception cref="ArgumentNullException">Throws if the uri is null</exception>
         /// <exception cref="ArgumentException">Throws if the uri is empty or whitespace</exception>
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
-        public static RssChannel LoadChannelFromUri(string uri, bool verifyRssVersion)
+        public static async Task<RssChannel> LoadChannelAsync(string uri, bool verifyRssVersion)
         {
             if (uri is null)
                 throw new ArgumentNullException(paramName: nameof(uri));
@@ -55,22 +55,19 @@ namespace RssReader.Model
 
             uri = uri.Trim();
 
-            IStorageFile rssTempFile = Downloader.DownloadFile(new Uri(uri));
+            var tempFile = await Downloader.DownloadFileAsync(new Uri(uri));
             XDocument doc;
             try
             {
-                try
-                {
-                    doc = XDocument.Load(rssTempFile.Path);
-                }
-                catch (Exception e)
-                {
-                    throw new RssReadingException("Error occured during RSS loading.", e);
-                }
+                doc = XDocument.Load(tempFile.Path);
+            }
+            catch (Exception e)
+            {
+                throw new RssReadingException("Error occured during RSS loading.", e);
             }
             finally
             {
-                Task.Run(() => rssTempFile.DeleteAsync(StorageDeleteOption.PermanentDelete));
+                await tempFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
 
             if (doc.Root.Name != RssNames.Root)
@@ -123,6 +120,13 @@ namespace RssReader.Model
             }
         }
 
+        public static RssChannel LoadChannel(string uri, bool verifyRssVersion)
+        {
+            var task = Task.Run(() => LoadChannelAsync(uri, verifyRssVersion));
+            task.Wait();
+            return task.Result;
+        }
+
         /// <summary>
         /// Loads the RSS channels content from Uri collection
         /// </summary>
@@ -131,14 +135,14 @@ namespace RssReader.Model
         /// <returns>RSS channel instance collection</returns>
         /// <exception cref="ArgumentNullException">Throws if the uri collection is null</exception>
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
-        public static IEnumerable<RssChannel> LoadChannelsFromUriCollection(IEnumerable<string> uriCollection, bool verifyRssVersion = false)
+        public static IEnumerable<RssChannel> LoadChannels(IEnumerable<string> uriCollection, bool verifyRssVersion = false)
         {
             if (uriCollection is null)
                 throw new ArgumentNullException(nameof(uriCollection));
 
             Contract.EndContractBlock();
 
-            return uriCollection.Where(uri => !string.IsNullOrWhiteSpace(uri)).Select(uri => LoadChannelFromUri(uri, verifyRssVersion));
+            return uriCollection.Where(uri => !string.IsNullOrWhiteSpace(uri)).Select(uri => LoadChannel(uri, verifyRssVersion));
         }
 
     }

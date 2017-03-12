@@ -38,13 +38,6 @@ namespace RssReader.Model
             return operation.ResultFile;
         }
 
-        public static IStorageFile DownloadFile(Uri uri)
-        {
-            var task = Task.Run(() => DownloadFileAsync(uri));
-            task.Wait();
-            return task.Result;
-        }
-
     }
 
 }
