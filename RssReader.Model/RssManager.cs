@@ -68,7 +68,10 @@ namespace RssReader.Model
             }
             finally
             {
-                await tempFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                //await tempFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+#pragma warning disable 4014
+                tempFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
+#pragma warning restore 4014
             }
 
             if (doc.Root.Name != RssNames.Root)
