@@ -39,7 +39,5 @@ namespace RssReader
         public static string NewRssUri { get; set; }
 
         public string RssUri => this.RssUriTextBox.Text.Trim();
-
-        public AddNewsChannelPageViewModel ViewModel => (AddNewsChannelPageViewModel)this.DataContext;
     }
 }
