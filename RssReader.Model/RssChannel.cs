@@ -92,7 +92,7 @@ namespace RssReader.Model
             this.LastBuildDate = lastBuildDate ?? string.Empty;
 
             Func<IList<RssChannelItem>> copyNews = () =>
-                news?.Where(newsItem => (object)newsItem != null).ToArray() ?? new RssChannelItem[0];
+                news?.Where(newsItem => !(newsItem is null)).ToArray() ?? new RssChannelItem[0];
 
             this.News = new ReadOnlyCollection<RssChannelItem>(copyNews());
         }

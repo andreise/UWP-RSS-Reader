@@ -26,7 +26,7 @@ namespace RssReader
 
         private static RssChannel LoadChannelFromUri(string uri, Action<Exception> exceptionHandler, bool rethrowException)
         {
-            if ((object)exceptionHandler == null && rethrowException)
+            if (exceptionHandler is null && rethrowException)
                 return LoadChannelFromUri(uri);
 
             try
@@ -35,7 +35,7 @@ namespace RssReader
             }
             catch (Exception e)
             {
-                if ((object)exceptionHandler != null)
+                if (!(exceptionHandler is null))
                     exceptionHandler(e);
 
                 if (rethrowException)
@@ -58,7 +58,7 @@ namespace RssReader
                     rethrowException: false
                 );
 
-                if ((object)channel == null)
+                if (channel is null)
                     channel = new RssChannel(
                         uri,
                         Invariant($"Error occured during news loading from '{uri}': {errorMessage}" ),
@@ -82,7 +82,7 @@ namespace RssReader
 
         public NewsChannelsPageViewModel(NewsChannelsPage owner)
         {
-            if ((object)owner == null)
+            if (owner is null)
                 throw new ArgumentNullException(nameof(owner));
 
             Contract.EndContractBlock();
@@ -94,7 +94,7 @@ namespace RssReader
 
         public void AddNewsChannel(string uri)
         {
-            if ((object)uri == null)
+            if (uri is null)
                 throw new ArgumentNullException(paramName: nameof(uri));
 
             if (string.IsNullOrWhiteSpace(uri))
@@ -110,7 +110,7 @@ namespace RssReader
                 e => this.owner.ShowMessage(Invariant($"Error occured during news loading: {e.Message}"), "News loading error"),
                 rethrowException: false
             );
-            if ((object)channelToAdd != null)
+            if (!(channelToAdd is null))
                 this.NewsChannels.Add(channelToAdd);
         }
 

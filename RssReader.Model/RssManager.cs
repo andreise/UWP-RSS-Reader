@@ -45,7 +45,7 @@ namespace RssReader.Model
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
         public static RssChannel LoadChannelFromUri(string uri, bool verifyRssVersion)
         {
-            if ((object)uri == null)
+            if (uri is null)
                 throw new ArgumentNullException(paramName: nameof(uri));
 
             if (string.IsNullOrWhiteSpace(uri))
@@ -87,7 +87,7 @@ namespace RssReader.Model
             }
 
             Func<XElement, RssChannelImage> convertToChannelImage = channelImageElement =>
-                (object)channelImageElement == null ? null : new RssChannelImage(
+                channelImageElement is null ? null : new RssChannelImage(
                     channelImageElement.Element(RssNames.Channel.Image.Url)?.Value,
                     channelImageElement.Element(RssNames.Channel.Image.Link)?.Value,
                     channelImageElement.Element(RssNames.Channel.Image.Title)?.Value
@@ -133,7 +133,7 @@ namespace RssReader.Model
         /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
         public static IEnumerable<RssChannel> LoadChannelsFromUriCollection(IEnumerable<string> uriCollection, bool verifyRssVersion = false)
         {
-            if ((object)uriCollection == null)
+            if (uriCollection is null)
                 throw new ArgumentNullException(nameof(uriCollection));
 
             Contract.EndContractBlock();

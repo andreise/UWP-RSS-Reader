@@ -104,7 +104,7 @@ namespace RssReader
                 this.ViewModel.NewsChannels.RemoveAt(indexToRemove);
                 if (this.ViewModel.NewsChannels.Count > 0)
                 {
-                    if ((object)this.NewsChannelsListView.SelectedItem == null)
+                    if (this.NewsChannelsListView.SelectedItem is null)
                         this.NewsChannelsListView.SelectedItem = this.ViewModel.NewsChannels[0];
                 }
                 AppSettingsManager.Default.RssUriCollection.RemoveAt(indexToRemove);
@@ -120,14 +120,14 @@ namespace RssReader
         private void StackPanel_Holding(object sender, HoldingRoutedEventArgs e)
         {
             FrameworkElement senderElement = sender as FrameworkElement;
-            if ((object)senderElement != null)
+            if (!(senderElement is null))
                 this.HoldingOrRightTapped(senderElement);
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             FrameworkElement senderElement = sender as FrameworkElement;
-            if ((object)senderElement != null)
+            if (!(senderElement is null))
                 this.HoldingOrRightTapped(senderElement);
         }
     }

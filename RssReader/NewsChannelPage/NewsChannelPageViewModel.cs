@@ -20,10 +20,10 @@ namespace RssReader
 
         public NewsChannelPageViewModel(NewsChannelPage owner, RssChannel newsChannel)
         {
-            if ((object)owner == null)
+            if (owner is null)
                 throw new ArgumentNullException(nameof(owner));
 
-            if ((object)newsChannel == null)
+            if (newsChannel is null)
                 throw new ArgumentNullException(nameof(newsChannel));
 
             Contract.EndContractBlock();
