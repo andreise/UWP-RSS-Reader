@@ -103,7 +103,7 @@ namespace RssReader
 
             RssChannel channelToAdd = LoadChannel(
                 uri,
-                e => this.owner.ShowMessage(Invariant($"Error occured during news loading: {e.Message}"), "News loading error"),
+                null, // e => this.owner.ShowMessage(Invariant($"Error occured during news loading: {e.Message}"), "News loading error"),
                 rethrowException: false
             );
             if (!(channelToAdd is null))

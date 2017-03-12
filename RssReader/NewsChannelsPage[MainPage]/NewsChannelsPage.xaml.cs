@@ -65,7 +65,7 @@ namespace RssReader
 
         public int GetSelectedItemIndex() => this.NewsChannelsListView.SelectedIndex;
 
-        public async void ShowMessage(string message, string title)
+        private async void ShowMessage(string message, string title)
         {
             MessageDialog dialog = new MessageDialog(message, title);
             await dialog.ShowAsync();
