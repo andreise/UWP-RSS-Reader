@@ -65,6 +65,7 @@ namespace RssReader
             if (!this.ViewModel.NewsChannels.Any(channel => channel.Uri?.Equals(newRssUriString) ?? false))
             {
                 await this.ViewModel.AddNewsChannelAsync(newRssUriString);
+                this.NewsChannelsListView.SelectedIndex = this.NewsChannelsListView.Items.Count - 1;
             }
         }
 
@@ -124,7 +125,7 @@ namespace RssReader
                     this.NewsChannelsListView.SelectedItem = this.ViewModel.NewsChannels[0];
 
                     if (indexToRemove > this.NewsChannelsListView.Items.Count - 1)
-                        this.NewsChannelsListView.SelectedIndex = NewsChannelsListView.Items.Count - 1;
+                        this.NewsChannelsListView.SelectedIndex = this.NewsChannelsListView.Items.Count - 1;
                     else
                         this.NewsChannelsListView.SelectedIndex = indexToRemove;
                 }
