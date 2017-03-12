@@ -127,23 +127,5 @@ namespace RssReader.Model
             return task.Result;
         }
 
-        /// <summary>
-        /// Loads the RSS channels content from Uri collection
-        /// </summary>
-        /// <param name="uriCollection">RSS Uri collection</param>
-        /// <param name="verifyRssVersion">Verify RSS version is supported</param>
-        /// <returns>RSS channel instance collection</returns>
-        /// <exception cref="ArgumentNullException">Throws if the uri collection is null</exception>
-        /// <exception cref="RssReadingException">Throws if an error occured during RSS reading</exception>
-        public static IEnumerable<RssChannel> LoadChannels(IEnumerable<string> uriCollection, bool verifyRssVersion = false)
-        {
-            if (uriCollection is null)
-                throw new ArgumentNullException(nameof(uriCollection));
-
-            Contract.EndContractBlock();
-
-            return uriCollection.Where(uri => !string.IsNullOrWhiteSpace(uri)).Select(uri => LoadChannel(uri, verifyRssVersion));
-        }
-
     }
 }
