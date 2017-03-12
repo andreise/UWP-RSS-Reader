@@ -7,6 +7,7 @@ using static System.FormattableString;
 
 namespace RssReader.Model
 {
+
     static class Downloader
     {
 
@@ -17,27 +18,33 @@ namespace RssReader.Model
             CreationCollisionOption.GenerateUniqueName
         );
 
-        public static IStorageFile DownloadFileFromUri(Uri uri)
-        {
-            var operationWithProgressTask = Task.Run(
-                async () =>
-                    new BackgroundDownloader().
-                    CreateDownload(uri, await CreateTempFileAsync()).
-                    StartAsync()
-            );
-            var operationWithProgressResultTask = operationWithProgressTask.Result.AsTask();
-            operationWithProgressResultTask.Wait();
+        private static async Task<DownloadOperation> DownloadFileHelperAsync(Uri uri) =>
+            await new BackgroundDownloader().
+            CreateDownload(uri, await CreateTempFileAsync()).
+            StartAsync();
 
-            if (operationWithProgressResultTask.Result.Progress.Status != BackgroundTransferStatus.Completed)
+        public static async Task<IStorageFile> DownloadFileAsync(Uri uri)
+        {
+            var operation = await DownloadFileHelperAsync(uri);
+
+            if (operation.Progress.Status != BackgroundTransferStatus.Completed)
             {
                 string message = Invariant(
-                    $"File download not completed successfully (current status: {operationWithProgressResultTask.Result.Progress.Status})."
+                    $"File downloading is not completed successfully (current status: {operation.Progress.Status})."
                 );
                 throw new InvalidOperationException(message);
             }
 
-            return operationWithProgressResultTask.Result.ResultFile;
+            return operation.ResultFile;
+        }
+
+        public static IStorageFile DownloadFile(Uri uri)
+        {
+            var task = Task.Run(() => DownloadFileAsync(uri));
+            task.Wait();
+            return task.Result;
         }
 
     }
+
 }

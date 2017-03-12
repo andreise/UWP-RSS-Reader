@@ -55,7 +55,7 @@ namespace RssReader.Model
 
             uri = uri.Trim();
 
-            IStorageFile rssTempFile = Downloader.DownloadFileFromUri(new Uri(uri));
+            IStorageFile rssTempFile = Downloader.DownloadFile(new Uri(uri));
             XDocument doc;
             try
             {
