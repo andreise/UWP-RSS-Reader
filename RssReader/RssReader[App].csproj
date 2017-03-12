@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NewsChannelsPage[MainPage]\NewsChannelLoadingFailedEventArgs.cs" />
     <Compile Include="NewsChannelsPage[MainPage]\NewsChannelsPage.xaml.cs">
       <DependentUpon>NewsChannelsPage.xaml</DependentUpon>
     </Compile>

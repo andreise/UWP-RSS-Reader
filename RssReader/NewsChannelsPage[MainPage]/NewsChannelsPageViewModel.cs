@@ -16,8 +16,8 @@ namespace RssReader
     public sealed class NewsChannelsPageViewModel
     {
 
-        private static RssChannel LoadChannel(string uri)
-            => RssManager.LoadChannel(uri, ConfigurationManager.Default.VerifyRssVersion);
+        private static RssChannel LoadChannel(string uri) =>
+            RssManager.LoadChannel(uri, ConfigurationManager.Default.VerifyRssVersion);
 
         private static RssChannel LoadChannel(string uri, Action<Exception> exceptionHandler, bool rethrowException)
         {
@@ -76,6 +76,10 @@ namespace RssReader
 
         public ICommand NavigateAddNewsChannelPageCommand { get; }
 
+        public event EventHandler<NewsChannelLoadingFailedEventArgs> NewsChannelLoadingFailed;
+
+        private void OnNewsChannelLoadingFailed(string message) => this.NewsChannelLoadingFailed?.Invoke(this, new NewsChannelLoadingFailedEventArgs(message));
+
         public NewsChannelsPageViewModel(NewsChannelsPage owner)
         {
             if (owner is null)
@@ -103,9 +107,10 @@ namespace RssReader
 
             RssChannel channelToAdd = LoadChannel(
                 uri,
-                null, // e => this.owner.ShowMessage(Invariant($"Error occured during news loading: {e.Message}"), "News loading error"),
+                e => this.OnNewsChannelLoadingFailed(Invariant($"Error occured during news loading: {e.Message}")),
                 rethrowException: false
             );
+
             if (!(channelToAdd is null))
                 this.NewsChannels.Add(channelToAdd);
         }

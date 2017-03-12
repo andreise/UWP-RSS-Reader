@@ -38,9 +38,16 @@ namespace RssReader
             this.Loaded += this.NewsChannelsPage_Loaded;
         }
 
-        private void NewsChannelsPage_Loaded(object sender, RoutedEventArgs e)
+        public NewsChannelsPageViewModel ViewModel => (NewsChannelsPageViewModel)this.DataContext;
+
+        public static RssChannel CurrentNewsChannel { get; private set; }
+
+        public int GetSelectedItemIndex() => this.NewsChannelsListView.SelectedIndex;
+
+        private async void ShowMessage(string message, string title)
         {
-            this.Frame.Navigated += Frame_Navigated;
+            MessageDialog dialog = new MessageDialog(message, title);
+            await dialog.ShowAsync();
         }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
@@ -59,16 +66,20 @@ namespace RssReader
             }
         }
 
-        public NewsChannelsPageViewModel ViewModel => (NewsChannelsPageViewModel)this.DataContext;
-
-        public static RssChannel CurrentNewsChannel { get; private set; }
-
-        public int GetSelectedItemIndex() => this.NewsChannelsListView.SelectedIndex;
-
-        private async void ShowMessage(string message, string title)
+        private void ViewModel_NewsChannelLoadingFailed(object sender, NewsChannelLoadingFailedEventArgs e)
         {
-            MessageDialog dialog = new MessageDialog(message, title);
-            await dialog.ShowAsync();
+            if (e.Handled)
+                return;
+
+            e.Handled = true;
+
+            this.ShowMessage(e.Message, "News loading error");
+        }
+
+        private void NewsChannelsPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigated += this.Frame_Navigated;
+            this.ViewModel.NewsChannelLoadingFailed += this.ViewModel_NewsChannelLoadingFailed;
         }
 
         private void NewsChannelsListView_ItemClick(object sender, ItemClickEventArgs e)
