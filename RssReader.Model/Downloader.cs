@@ -26,9 +26,9 @@ namespace RssReader.Model
         public static async Task<DownloadOperation> DownloadFileHelperAsync(Uri uri) =>
             await DownloadFileHelperAsync(uri, await CreateTempFileAsync());
 
-        public static async Task<IStorageFile> DownloadFileAsync(Uri uri)
+        public static async Task<IStorageFile> DownloadFileAsync(Uri uri, IStorageFile resultFile)
         {
-            var operation = await DownloadFileHelperAsync(uri);
+            var operation = await DownloadFileHelperAsync(uri, resultFile);
 
             if (operation.Progress.Status != BackgroundTransferStatus.Completed)
             {
@@ -40,6 +40,9 @@ namespace RssReader.Model
 
             return operation.ResultFile;
         }
+
+        public static async Task<IStorageFile> DownloadFileAsync(Uri uri) =>
+            await DownloadFileAsync(uri, await CreateTempFileAsync());
 
     }
 
