@@ -11,10 +11,8 @@ namespace RssReader.Model
     static class Downloader
     {
 
-        private static string GenerateUniqueFileName() => Path.GetRandomFileName();
-
         private static async Task<IStorageFile> CreateTempFileAsync() => await ApplicationData.Current.TemporaryFolder.CreateFileAsync(
-            GenerateUniqueFileName(),
+            Path.GetRandomFileName(),
             CreationCollisionOption.GenerateUniqueName
         );
 

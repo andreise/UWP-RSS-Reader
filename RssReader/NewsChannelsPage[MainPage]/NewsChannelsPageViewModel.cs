@@ -57,7 +57,7 @@ namespace RssReader
                 if (channel is null)
                     channel = new RssChannel(
                         uri,
-                        Invariant($"Error occured during loading News Channel from '{uri}': {errorMessage}" ),
+                        Invariant($"Error occured during loading the News Channel from '{uri}': {errorMessage}" ),
                         null,
                         null,
                         null,
@@ -109,13 +109,13 @@ namespace RssReader
                 throw new ArgumentException(paramName: nameof(uri), message: "Uri is empty.");
 
             if (this.NewsChannels.Any(channel => channel.Uri?.Equals(uri) ?? false))
-                throw new ArgumentException(paramName: nameof(uri), message: "News with the same URI already loaded.");
+                throw new ArgumentException(paramName: nameof(uri), message: "News Channel with the same URI already loaded.");
 
             Contract.EndContractBlock();
 
             RssChannel channelToAdd = await LoadChannelAsync(
                 uri,
-                e => this.OnNewsChannelLoadingFailed(Invariant($"Error occured during news loading: {e.Message}")),
+                e => this.OnNewsChannelLoadingFailed(Invariant($"Error occured during loading the News Channel: {e.Message}")),
                 rethrowException: false
             );
 
