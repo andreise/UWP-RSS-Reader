@@ -54,7 +54,7 @@
                   IsRightTapEnabled="True"
                   IsTapEnabled="True"
                   ItemClick="NewsChannelsListView_ItemClick"
-                  ItemsSource="{Binding Source={StaticResource NewsChannels}}">
+                  ItemsSource="{Binding Source={StaticResource NewsChannels}, Mode=OneWay}">
 
             <!--
             <ListView.GroupStyle>
