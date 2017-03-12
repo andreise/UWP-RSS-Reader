@@ -16,22 +16,17 @@ namespace RssReader
     public sealed class NewsChannelsPageViewModel
     {
 
-        public ObservableCollection<RssChannel> NewsChannels { get; }
-
-        private static IEnumerable<RssChannel> LoadRssChannelsFromUriCollection(IEnumerable<string> uriCollection)
-            => RssManager.LoadChannels(uriCollection, ConfigurationManager.Default.VerifyRssVersion);
-
-        private static RssChannel LoadChannelFromUri(string uri)
+        private static RssChannel LoadChannel(string uri)
             => RssManager.LoadChannel(uri, ConfigurationManager.Default.VerifyRssVersion);
 
-        private static RssChannel LoadChannelFromUri(string uri, Action<Exception> exceptionHandler, bool rethrowException)
+        private static RssChannel LoadChannel(string uri, Action<Exception> exceptionHandler, bool rethrowException)
         {
             if (exceptionHandler is null && rethrowException)
-                return LoadChannelFromUri(uri);
+                return LoadChannel(uri);
 
             try
             {
-                return LoadChannelFromUri(uri);
+                return LoadChannel(uri);
             }
             catch (Exception e)
             {
@@ -45,14 +40,14 @@ namespace RssReader
             }
         }
 
-        private static IEnumerable<RssChannel> LoadRssChannelsFromUriCollectionWithExceptionHandling(IEnumerable<string> uriCollection)
+        private static IEnumerable<RssChannel> LoadRssChannelsWithExceptionHandling(IEnumerable<string> uriCollection)
         {
             List<RssChannel> channels = new List<RssChannel>();
 
             foreach (string uri in uriCollection)
             {
                 string errorMessage = null;
-                RssChannel channel = LoadChannelFromUri(
+                RssChannel channel = LoadChannel(
                     uri,
                     e => { errorMessage = e.Message; },
                     rethrowException: false
@@ -75,10 +70,11 @@ namespace RssReader
             return channels;
         }
 
+        private readonly NewsChannelsPage owner;
+
+        public ObservableCollection<RssChannel> NewsChannels { get; }
 
         public ICommand NavigateAddNewsChannelPageCommand { get; }
-
-        private readonly NewsChannelsPage owner;
 
         public NewsChannelsPageViewModel(NewsChannelsPage owner)
         {
@@ -88,7 +84,7 @@ namespace RssReader
             Contract.EndContractBlock();
 
             this.owner = owner;
-            this.NewsChannels = new ObservableCollection<RssChannel>(LoadRssChannelsFromUriCollectionWithExceptionHandling(AppSettingsManager.Default.RssUriCollection));
+            this.NewsChannels = new ObservableCollection<RssChannel>(LoadRssChannelsWithExceptionHandling(AppSettingsManager.Default.RssUriCollection));
             this.NavigateAddNewsChannelPageCommand = new CommandHandler(() => this.owner.Frame.Navigate(typeof(AddNewsChannelPage)));
         }
 
@@ -105,7 +101,7 @@ namespace RssReader
 
             Contract.EndContractBlock();
 
-            RssChannel channelToAdd = LoadChannelFromUri(
+            RssChannel channelToAdd = LoadChannel(
                 uri,
                 e => this.owner.ShowMessage(Invariant($"Error occured during news loading: {e.Message}"), "News loading error"),
                 rethrowException: false
