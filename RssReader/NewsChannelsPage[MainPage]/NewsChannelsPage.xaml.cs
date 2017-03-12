@@ -120,7 +120,6 @@ namespace RssReader
                     if (this.NewsChannelsListView.SelectedItem is null)
                         this.NewsChannelsListView.SelectedItem = this.ViewModel.NewsChannels[0];
                 }
-                AppSettingsManager.Default.RssUriCollection.RemoveAt(indexToRemove);
             }
         }
 

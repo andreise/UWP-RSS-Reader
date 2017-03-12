@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using Windows.Storage;
 
@@ -68,6 +69,9 @@ namespace RssReader.AppSettings
             this.RssUriCollection.CollectionChanged += this.RssUriCollection_CollectionChanged;
         }
 
+        private void OnRssUriCollectionChanged() =>
+            this.settingsContainer.Values[SettingParamNames.RssUriCollection] = JoinUriCollection(this.RssUriCollection);
+
         private void RssUriCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (!(e.NewItems is null) && e.NewItems.Cast<string>().Any(item => string.IsNullOrWhiteSpace(item)))
@@ -75,7 +79,29 @@ namespace RssReader.AppSettings
                 throw new InvalidOperationException("Empty uri not allowed.");
             }
 
-            this.settingsContainer.Values[SettingParamNames.RssUriCollection] = JoinUriCollection(this.RssUriCollection);
+            this.OnRssUriCollectionChanged();
+        }
+
+        public void SetRssUriCollection(IEnumerable<string> uriCollection)
+        {
+            if (uriCollection is null)
+                throw new ArgumentNullException(nameof(uriCollection));
+
+            Contract.EndContractBlock();
+
+            this.RssUriCollection.CollectionChanged -= this.RssUriCollection_CollectionChanged;
+            this.RssUriCollection.Clear();
+            try
+            {
+                foreach (string uri in uriCollection.Where(item => !string.IsNullOrWhiteSpace(item)).Distinct())
+                    this.RssUriCollection.Add(uri);
+            }
+            finally
+            {
+                this.RssUriCollection.CollectionChanged += this.RssUriCollection_CollectionChanged;
+            }
+
+            this.OnRssUriCollectionChanged();
         }
 
         private static readonly Lazy<AppSettingsManager> defaultInstance = new Lazy<AppSettingsManager>(() => new AppSettingsManager());

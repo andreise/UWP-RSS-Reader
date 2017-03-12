@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
@@ -97,7 +98,13 @@ namespace RssReader
 
             this.owner = owner;
             this.NewsChannels = new ObservableCollection<RssChannel>(LoadRssChannelsWithExceptionHandling(AppSettingsManager.Default.RssUriCollection));
+            this.NewsChannels.CollectionChanged += this.NewsChannels_CollectionChanged;
             this.NavigateAddNewsChannelPageCommand = new CommandHandler(() => this.owner.Frame.Navigate(typeof(AddNewsChannelPage)));
+        }
+
+        private void NewsChannels_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            AppSettingsManager.Default.SetRssUriCollection(this.NewsChannels.Select(item => item.Uri?.ToString()));
         }
 
         public async Task AddNewsChannelAsync(string uri)
