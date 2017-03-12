@@ -57,7 +57,7 @@ namespace RssReader
                 if (channel is null)
                     channel = new RssChannel(
                         uri,
-                        Invariant($"Error occured during news loading from '{uri}': {errorMessage}" ),
+                        Invariant($"Error occured during loading News Channel from '{uri}': {errorMessage}" ),
                         null,
                         null,
                         null,
