@@ -16,22 +16,29 @@
                      Text="https://"
                      TextWrapping="NoWrap" />
 
-            <StackPanel Orientation="Horizontal">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="8"/>
+                </Grid.ColumnDefinitions>
+                
                 <Button x:Name="OKButton"
-                        Grid.Column="0"
+                        Grid.Column="1"
                         Width="75"
                         Height="35"
-                        Margin="0,0,8,0"
                         Command="{Binding OKCommand, Mode=OneWay}"
                         Content="OK" />
 
                 <Button x:Name="CancelButton"
-                        Grid.Column="1"
+                        Grid.Column="3"
                         Width="75"
                         Height="35"
                         Command="{Binding CancelCommand, Mode=OneWay}"
                         Content="Cancel" />
-            </StackPanel>
+            </Grid>
             
         </StackPanel>
     </Grid>
