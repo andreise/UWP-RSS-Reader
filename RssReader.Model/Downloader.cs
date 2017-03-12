@@ -17,16 +17,14 @@ namespace RssReader.Model
             CreationCollisionOption.GenerateUniqueName
         );
 
-        private static IStorageFile CreateTempFile()
-        {
-            var task = Task.Run(() => CreateTempFileAsync());
-            task.Wait();
-            return task.Result;
-        }
-
         public static IStorageFile DownloadFileFromUri(Uri uri)
         {
-            var operationWithProgressTask = Task.Run(() => new BackgroundDownloader().CreateDownload(uri, CreateTempFile()).StartAsync());
+            var operationWithProgressTask = Task.Run(
+                async () =>
+                    new BackgroundDownloader().
+                    CreateDownload(uri, await CreateTempFileAsync()).
+                    StartAsync()
+            );
             var operationWithProgressResultTask = operationWithProgressTask.Result.AsTask();
             operationWithProgressResultTask.Wait();
 
