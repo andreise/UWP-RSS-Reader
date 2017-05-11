@@ -165,6 +165,10 @@
       <Project>{fb97bc2b-a544-48b6-bdfc-6cfd437d5e0f}</Project>
       <Name>RssReader.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RssReader.Model.Common\RssReader.Model.Common.csproj">
+      <Project>{32065234-85b5-4f37-874d-48327d30f518}</Project>
+      <Name>RssReader.Model.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RssReader.Model\RssReader.Model.csproj">
       <Project>{583ff646-995f-42c8-a9e5-8b5d2c73dc30}</Project>
       <Name>RssReader.Model</Name>
